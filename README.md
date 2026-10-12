@@ -47,11 +47,11 @@ In this pipeline we implemented the targeted feature detection algorithm publish
 | base_resource_update | map | Optional per-process CPU and memory adjustments using the shared resource handler. |
 | ucla_cds | bool | When true, use the shared UCLA scratch work directory behavior. Resource allocation still uses `resources.json`. |
 | featureXML_entrypoint | bool | When true, `featureXML_csv` is required instead of `mzML.csv`. |
-| merge_featureXML | bool | When false, retention time won't be adjusted between samples and the PSM mapped featureXML will be used for peptide quantitation at the sample level. Only useful when `algorithm` is 'de novo'. Defaults to true. |
-| remove_mapped_features | bool | When true, the features mapped to any PSM are removed and the result featureXML files are saved to final output. This can be useful for tiered custom database searching. |
+| merge_featureXML | bool | When false, retention time won't be adjusted between samples and the PSM mapped featureXML will be used for peptide quantitation at the sample level. Applies to both FFId and de novo workflows. Defaults to true. |
+| filter_mapped_features | bool | When true, the features mapped to any PSM are removed and the result featureXML files are saved to final output. This can be useful for tiered custom database searching. |
 | fractionated | bool | Whether the samples have multiple fractions. When true, the input idXML will be split into individual fraction and then each featureXML file will be mapped to its corresponding idXML. |
 
-In general, most parameters of each program used in the pipeline can be specified from the config files in the format of `<prefix>_<original_arg>`. For example, the value of `find_features_extract_mz_window` is parsed to `FeatureFinderIdentification` as `-extract:mz_window`.
+In general, most parameters of each program used in the pipeline can be specified from the config files in the format of `<prefix>_<original_arg>`. For example, the value of `find_features_ident_extract_mz_window` is parsed to `FeatureFinderIdentification` as `-extract:mz_window`.
 
 See [here](docs/params.rst) for the complete list of all supported config parameters.
 

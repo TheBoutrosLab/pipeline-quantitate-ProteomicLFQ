@@ -9,7 +9,6 @@ FLAGS = [
 ]
 
 PARAMETER_MAPPER = [
-    'find_features_ident_quantify_decoys': '-quantify_decoys',
     'find_features_ident_extract_batch_size': '-extract:batch_size',
     'find_features_ident_extract_mz_window': '-extract:mz_window',
     'find_features_ident_extract_n_isotopes': '-extract:n_isotopes',
@@ -19,7 +18,6 @@ PARAMETER_MAPPER = [
     'find_features_ident_detect_peak_width': '-detect:peak_width',
     'find_features_ident_detect_mapping_tolerance': '-detect:mapping_tolerance',
     'find_features_ident_svm_samples': '-svm:samples',
-    'find_features_ident_svm_no_selection': '-svm:no_selection',
     'find_features_ident_svm_xval_out': '-svm:xval_out',
     'find_features_ident_svm_kernel': '-svm:kernel',
     'find_features_ident_svm_xval': '-svm:xval',
@@ -27,10 +25,13 @@ PARAMETER_MAPPER = [
     'find_features_ident_svm_log2_gamma': '-svm:log2_gamma',
     'find_features_ident_model_type': '-model:type',
     'find_features_ident_EMGScoring_max_iteration': '-EMGScoring:max_iteration',
-    'find_features_ident_EMGScoring_init_mom': 'EMGScoring:init_mom'
+    'find_features_ident_EMGScoring_init_mom': '-EMGScoring:init_mom'
 ]
 
-FLAG_MAPPER = [:]
+FLAG_MAPPER = [
+    'find_features_ident_quantify_decoys': '-quantify_decoys',
+    'find_features_ident_svm_no_selection': '-svm:no_selection'
+]
 
 process find_features_id {
     container params.docker_image_openms

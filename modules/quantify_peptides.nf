@@ -44,18 +44,24 @@ process quantify_peptides {
     peptide_out = "${sample_name}_ProteinQuantifier_peptide.csv"
     extra_args = getOpenMSArgs(PARAMETERS, FLAGS, PARAMETER_MAPPER, FLAG_MAPPER)
     """
+    set +e
     ProteinQuantifier \\
         -in ${input_xml} \\
         -peptide_out ${peptide_out} \\
         -threads ${task.cpus} \\
-        ${extra_args} \\
-        || true
+        ${extra_args}
+    quantifier_status=\$?
+    set -e
 
-    # This is when ProteinQuantifier fails to quantify any peptide from the featureXML file.
-    if grep -e "Error: Unexpected internal error (No protein matches found, cannot quantify proteins.)" .command.err; then
-        exit 0
-    elif [[ ! -f "$peptide_out" ]]; then
-        exit 1
+    if [[ "\$quantifier_status" -ne 0 ]]; then
+        # No protein matches is an expected empty result; other failures must stop the task.
+        if grep -Fq "Error: Unexpected internal error (No protein matches found, cannot quantify proteins.)" .command.err; then
+            rm -f "${peptide_out}"
+            exit 0
+        fi
+        exit "\$quantifier_status"
     fi
+
+    [[ -f "${peptide_out}" ]]
     """
 }

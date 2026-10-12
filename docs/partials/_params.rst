@@ -2,21 +2,21 @@
 Config Params
 *************
 
-FeatureFinderIdentification (process: find_features)
-####################################################
+FeatureFinderIdentification (process: find_features_id)
+#######################################################
 
 See `here <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_FeatureFinderIdentification.html>`_ for OpenMS's documentation of FeatureFinderIdentification.
 
-{% with data=data['find_features'] %}
+{% with data=data['find_features_id'] %}
 {% include "_table.rst" %}
 {% endwith %}
 
-MapAlignerIdentification (process: align_featureXML)
-####################################################
+MapAlignerIdentification (process: align_featureXML_id)
+#######################################################
 
 See `here <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_MapAlignerIdentification.html>`_ for OpenMS's documentation of MapAlignerIdentification.
 
-{% with data=data['align_featureXML'] %}
+{% with data=data['align_featureXML_id'] %}
 {% include "_table.rst" %}
 {% endwith %}
 

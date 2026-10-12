@@ -8,15 +8,15 @@ from jinja2 import Environment, FileSystemLoader
 
 # pylint: disable=W1401
 
-DOCKER_REPO = 'blcdsdockerregistry/openms-thirdparty:2.7.0pre'
+DOCKER_REPO = 'ghcr.io/theboutroslab/openms-thirdparty:3.5.0'
 MODULE_COMMANDS = {
-        'find_features': {
+        'find_features_id': {
             'command': 'FeatureFinderIdentification',
-            'path': 'modules/find_features.nf'
+            'path': 'modules/find_features_id.nf'
         },
-        'align_featureXML': {
+        'align_featureXML_id': {
             'command': 'MapAlignerIdentification',
-            'path': 'modules/align_featureXML.nf'
+            'path': 'modules/align_featureXML_id.nf'
         },
         'align_idXML': {
             'command': 'MapAlignerIdentification',
@@ -169,10 +169,6 @@ class OpenMSDockerImage():
 
 def get_params_data(modules:dict):
     """ get params data """
-    docker_id = str(uuid.uuid4())[:8]
-    cmd = f"docker run -it -d --name {docker_id} {DOCKER_REPO}"
-    sp.run(cmd, shell=True, check=False)
-
     data = {}
     with OpenMSDockerImage(DOCKER_REPO) as container:
         for module in modules.keys():

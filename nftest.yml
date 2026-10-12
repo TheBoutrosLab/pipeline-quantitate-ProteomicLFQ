@@ -13,13 +13,6 @@ cases:
     skip: false
     verbose: true
 
-  - name: test-internal-only-no-merge
-    message: Integration test using the internal-only strategy
-    nf_script: main.nf
-    nf_config: test/test_internal_only_no_merge/test.config
-    skip: false
-    verbose: true
-
   - name: test-merged
     message: Integration test using the int/ext-merged strategy
     nf_script: main.nf

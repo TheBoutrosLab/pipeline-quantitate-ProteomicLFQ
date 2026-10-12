@@ -146,7 +146,9 @@ workflow denovo {
 
             set_featureXMLSpectraPath(merge_featureXML.out[0])
             convert_featureXML2consensusXML(set_featureXMLSpectraPath.out[0])
-            set_consensusXMLColumnHeaders(convert_featureXML2consensusXML.out[0])
+            ch_sample_consensusXML = convert_featureXML2consensusXML.out[0]
+                .map { [it[0], it[0], it[1]] }
+            set_consensusXMLColumnHeaders(ch_sample_consensusXML)
             ich_consensusXML = set_consensusXMLColumnHeaders.out[0]
         }
 

@@ -2,125 +2,125 @@
 Config Params
 *************
 
-FeatureFinderIdentification (process: find_features)
-####################################################
+FeatureFinderIdentification (process: find_features_id)
+#######################################################
 
 See `here <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_FeatureFinderIdentification.html>`_ for OpenMS's documentation of FeatureFinderIdentification.
 
 
-+-----------------------------------------+---------+----------------------------------------------+
-| Parameter                               | Type    | Description                                  |
-+=========================================+=========+==============================================+
-|| find_features_quantify_decoys          || bool   ||                    Whether decoy peptides   |
-|| (-quantify_decoys)                     ||        || should be quantified (true) or skipped      |
-||                                        ||        || (false).                                    |
-+-----------------------------------------+---------+----------------------------------------------+
-|| find_features_extract_batch_size       || number || Nr of peptides used in each batch of        |
-|| (-extract:batch_size)                  ||        || chromatogram extraction. Smaller values     |
-||                                        ||        || decrease memory usage but increase runtime. |
-||                                        ||        || (default: '5000' min: '1')                  |
-+-----------------------------------------+---------+----------------------------------------------+
-|| find_features_extract_mz_window        || value  || M/z window size for chromatogram extraction |
-|| (-extract:mz_window)                   ||        || (unit: ppm if 1 or greater, else Da/Th)     |
-||                                        ||        || (default: '10.0' min: '0.0')                |
-+-----------------------------------------+---------+----------------------------------------------+
-|| find_features_extract_n_isotopes       || number || Number of isotopes to include in each       |
-|| (-extract:n_isotopes)                  ||        || peptide assay. (default: '2' min: '2')      |
-||                                        ||        ||                                             |
-+-----------------------------------------+---------+----------------------------------------------+
-|| find_features_detect_peak_width        || value  || Expected elution peak width in seconds, for |
-|| (-detect:peak_width)                   ||        || smoothing (Gauss filter). Also determines   |
-||                                        ||        || the RT extration window, unless set         |
-||                                        ||        || explicitly via 'extract:rt_window'.         |
-||                                        ||        || (default: '60.0' min: '0.0')                |
-+-----------------------------------------+---------+----------------------------------------------+
-|| find_features_detect_mapping_tolerance || value  || RT tolerance (plus/minus) for mapping       |
-|| (-detect:mapping_tolerance)            ||        || peptide IDs to features. Absolute value in  |
-||                                        ||        || seconds if 1 or greater, else relative to   |
-||                                        ||        || the RT span of the feature. (default: '0.0' |
-||                                        ||        || min: '0.0')                                 |
-+-----------------------------------------+---------+----------------------------------------------+
-|| find_features_svm_samples              || number || Number of observations to use for training  |
-|| (-svm:samples)                         ||        || ('0' for all) (default: '0' min: '0')       |
-||                                        ||        ||                                             |
-+-----------------------------------------+---------+----------------------------------------------+
-|| find_features_svm_no_selection         || bool   ||                   By default, roughly the   |
-|| (-svm:no_selection)                    ||        || same number of positive and negative        |
-||                                        ||        || observations, with the same intensity       |
-||                                        ||        || distribution, are selected for training.    |
-||                                        ||        || This aims to reduce biases, but also        |
-||                                        ||        || reduces the amount of training data. Set    |
-||                                        ||        || this flag to skip this procedure and        |
-||                                        ||        || consider all available observations         |
-||                                        ||        || (subject to 'svm:samples').                 |
-+-----------------------------------------+---------+----------------------------------------------+
-|| find_features_svm_xval_out             || choice || Output file: SVM cross-validation           |
-|| (-svm:xval_out)                        ||        || (parameter optimization) results (valid     |
-||                                        ||        || formats: 'csv')                             |
-+-----------------------------------------+---------+----------------------------------------------+
-|| find_features_svm_kernel               || choice || SVM kernel (default: 'RBF' valid: 'RBF',    |
-|| (-svm:kernel)                          ||        || 'linear')                                   |
-||                                        ||        ||                                             |
-+-----------------------------------------+---------+----------------------------------------------+
-|| find_features_svm_xval                 || number || Number of partitions for cross-validation   |
-|| (-svm:xval)                            ||        || (parameter optimization) (default: '5' min: |
-||                                        ||        || '1')                                        |
-+-----------------------------------------+---------+----------------------------------------------+
-|| find_features_svm_log2_C               || values || Values to try for the SVM parameter 'C'     |
-|| (-svm:log2_C)                          ||        || during parameter optimization. A value 'x'  |
-||                                        ||        || is used as 'C = 2^x'. (default: '[-5.0 -3.0 |
-||                                        ||        || -1.0 1.0 3.0 5.0 7.0 9.0 11.0 13.0 15.0]')  |
-+-----------------------------------------+---------+----------------------------------------------+
-|| find_features_svm_log2_gamma           || values || Values to try for the SVM parameter 'gamma' |
-|| (-svm:log2_gamma)                      ||        || during parameter optimization (RBF kernel   |
-||                                        ||        || only). A value 'x' is used as 'gamma =      |
-||                                        ||        || 2^x'. (default: '[-15.0 -13.0 -11.0 -9.0    |
-||                                        ||        || -7.0 -5.0 -3.0 -1.0 1.0 3.0]')              |
-+-----------------------------------------+---------+----------------------------------------------+
-|| find_features_model_type               || choice || Type of elution model to fit to features    |
-|| (-model:type)                          ||        || (default: 'symmetric' valid: 'symmetric',   |
-||                                        ||        || 'asymmetric', 'none')                       |
-+-----------------------------------------+---------+----------------------------------------------+
-|| find_features_EMGScoring_max_iteration || number || Maximum number of iterations for EMG        |
-|| (-EMGScoring:max_iteration)            ||        || fitting. (default: '100' min: '1')          |
-||                                        ||        ||                                             |
-+-----------------------------------------+---------+----------------------------------------------+
++-----------------------------------------------+---------+----------------------------------------------+
+| Parameter                                     | Type    | Description                                  |
++===============================================+=========+==============================================+
+|| find_features_ident_quantify_decoys                || bool   ||                    Whether decoy peptides   |
+|| (-quantify_decoys)                           ||        || should be quantified (true) or skipped      |
+||                                              ||        || (false).                                    |
++-----------------------------------------------+---------+----------------------------------------------+
+|| find_features_ident_extract_batch_size             || number || Nr of peptides used in each batch of        |
+|| (-extract:batch_size)                        ||        || chromatogram extraction. Smaller values     |
+||                                              ||        || decrease memory usage but increase runtime. |
+||                                              ||        || (default: '5000' min: '1')                  |
++-----------------------------------------------+---------+----------------------------------------------+
+|| find_features_ident_extract_mz_window              || value  || M/z window size for chromatogram extraction |
+|| (-extract:mz_window)                         ||        || (unit: ppm if 1 or greater, else Da/Th)     |
+||                                              ||        || (default: '10.0' min: '0.0')                |
++-----------------------------------------------+---------+----------------------------------------------+
+|| find_features_ident_extract_n_isotopes             || number || Number of isotopes to include in each       |
+|| (-extract:n_isotopes)                        ||        || peptide assay. (default: '2' min: '2')      |
+||                                              ||        ||                                             |
++-----------------------------------------------+---------+----------------------------------------------+
+|| find_features_ident_detect_peak_width              || value  || Expected elution peak width in seconds, for |
+|| (-detect:peak_width)                         ||        || smoothing (Gauss filter). Also determines   |
+||                                              ||        || the RT extration window, unless set         |
+||                                              ||        || explicitly via 'extract:rt_window'.         |
+||                                              ||        || (default: '60.0' min: '0.0')                |
++-----------------------------------------------+---------+----------------------------------------------+
+|| find_features_ident_detect_mapping_tolerance       || value  || RT tolerance (plus/minus) for mapping       |
+|| (-detect:mapping_tolerance)                  ||        || peptide IDs to features. Absolute value in  |
+||                                              ||        || seconds if 1 or greater, else relative to   |
+||                                              ||        || the RT span of the feature. (default: '0.0' |
+||                                              ||        || min: '0.0')                                 |
++-----------------------------------------------+---------+----------------------------------------------+
+|| find_features_ident_svm_samples                    || number || Number of observations to use for training  |
+|| (-svm:samples)                               ||        || ('0' for all) (default: '0' min: '0')       |
+||                                              ||        ||                                             |
++-----------------------------------------------+---------+----------------------------------------------+
+|| find_features_ident_svm_no_selection               || bool   ||                   By default, roughly the   |
+|| (-svm:no_selection)                          ||        || same number of positive and negative        |
+||                                              ||        || observations, with the same intensity       |
+||                                              ||        || distribution, are selected for training.    |
+||                                              ||        || This aims to reduce biases, but also        |
+||                                              ||        || reduces the amount of training data. Set    |
+||                                              ||        || this flag to skip this procedure and        |
+||                                              ||        || consider all available observations         |
+||                                              ||        || (subject to 'svm:samples').                 |
++-----------------------------------------------+---------+----------------------------------------------+
+|| find_features_ident_svm_xval_out                   || choice || Output file: SVM cross-validation           |
+|| (-svm:xval_out)                              ||        || (parameter optimization) results (valid     |
+||                                              ||        || formats: 'csv')                             |
++-----------------------------------------------+---------+----------------------------------------------+
+|| find_features_ident_svm_kernel                     || choice || SVM kernel (default: 'RBF' valid: 'RBF',    |
+|| (-svm:kernel)                                ||        || 'linear')                                   |
+||                                              ||        ||                                             |
++-----------------------------------------------+---------+----------------------------------------------+
+|| find_features_ident_svm_xval                       || number || Number of partitions for cross-validation   |
+|| (-svm:xval)                                  ||        || (parameter optimization) (default: '5' min: |
+||                                              ||        || '1')                                        |
++-----------------------------------------------+---------+----------------------------------------------+
+|| find_features_ident_svm_log2_C                     || values || Values to try for the SVM parameter 'C'     |
+|| (-svm:log2_C)                                ||        || during parameter optimization. A value 'x'  |
+||                                              ||        || is used as 'C = 2^x'. (default: '[-5.0 -3.0 |
+||                                              ||        || -1.0 1.0 3.0 5.0 7.0 9.0 11.0 13.0 15.0]')  |
++-----------------------------------------------+---------+----------------------------------------------+
+|| find_features_ident_svm_log2_gamma                 || values || Values to try for the SVM parameter 'gamma' |
+|| (-svm:log2_gamma)                            ||        || during parameter optimization (RBF kernel   |
+||                                              ||        || only). A value 'x' is used as 'gamma =      |
+||                                              ||        || 2^x'. (default: '[-15.0 -13.0 -11.0 -9.0    |
+||                                              ||        || -7.0 -5.0 -3.0 -1.0 1.0 3.0]')              |
++-----------------------------------------------+---------+----------------------------------------------+
+|| find_features_ident_model_type                     || choice || Type of elution model to fit to features    |
+|| (-model:type)                                ||        || (default: 'symmetric' valid: 'symmetric',   |
+||                                              ||        || 'asymmetric', 'none')                       |
++-----------------------------------------------+---------+----------------------------------------------+
+|| find_features_ident_EMGScoring_max_iteration       || number || Maximum number of iterations for EMG        |
+|| (-EMGScoring:max_iteration)                  ||        || fitting. (default: '100' min: '1')          |
+||                                              ||        ||                                             |
++-----------------------------------------------+---------+----------------------------------------------+
 
 
 
-MapAlignerIdentification (process: align_featureXML)
-####################################################
+MapAlignerIdentification (process: align_featureXML_id)
+#######################################################
 
 See `here <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_MapAlignerIdentification.html>`_ for OpenMS's documentation of MapAlignerIdentification.
 
 
-+-------------------------------------------+---------+--------------------------------------------+
-| Parameter                                 | Type    | Description                                |
-+===========================================+=========+============================================+
-|| align_featureXML_reference_file          || file   || File to use as reference (valid formats:  |
-|| (-reference:file)                        ||        || 'featureXML', 'consensusXML', 'idXML')    |
-||                                          ||        ||                                           |
-+-------------------------------------------+---------+--------------------------------------------+
-|| align_featureXML_reference_index         || number || Use one of the input files as reference   |
-|| (-reference:index)                       ||        || ('1' for the first file, etc.).           |
-||                                          ||        ||                                           |
-+-------------------------------------------+---------+--------------------------------------------+
-|| align_featureXML_design                  || file   || Input file containing the experimental    |
-|| (-design)                                ||        || design (valid formats: 'tsv')             |
-||                                          ||        ||                                           |
-+-------------------------------------------+---------+--------------------------------------------+
-|| align_featureXML_algorithm_score_cutoff  || bool   ||                          If only IDs      |
-|| (-algorithm:score_cutoff)                ||        || above a score cutoff should be used. Used |
-||                                          ||        || together with min_score.                  |
-+-------------------------------------------+---------+--------------------------------------------+
-|| align_featureXML_algorithm_min_score     || value  || Minimum score for an ID to be considered. |
-|| (-algorithm:min_score)                   ||        || Applies to the last score calculated.     |
-||                                          ||        ||                                           |
-+-------------------------------------------+---------+--------------------------------------------+
-|| align_featureXML_algorithm_min_run_occur || number || Minimum number of runs (incl. reference,  |
-|| (-algorithm:min_run_occur)               ||        || if any) in which a peptide must occur to  |
-||                                          ||        || be used for the alignment.                |
-+-------------------------------------------+---------+--------------------------------------------+
++----------------------------------------------+---------+--------------------------------------------+
+| Parameter                                    | Type    | Description                                |
++==============================================+=========+============================================+
+|| align_featureXML_id_reference_file             || file   || File to use as reference (valid formats:  |
+|| (-reference:file)                           ||        || 'featureXML', 'consensusXML', 'idXML')    |
+||                                             ||        ||                                           |
++----------------------------------------------+---------+--------------------------------------------+
+|| align_featureXML_id_reference_index            || number || Use one of the input files as reference   |
+|| (-reference:index)                          ||        || ('1' for the first file, etc.).           |
+||                                             ||        ||                                           |
++----------------------------------------------+---------+--------------------------------------------+
+|| align_featureXML_id_design                     || file   || Input file containing the experimental    |
+|| (-design)                                   ||        || design (valid formats: 'tsv')             |
+||                                             ||        ||                                           |
++----------------------------------------------+---------+--------------------------------------------+
+|| align_featureXML_id_algorithm_score_cutoff     || bool   ||                          If only IDs      |
+|| (-algorithm:score_cutoff)                   ||        || above a score cutoff should be used. Used |
+||                                             ||        || together with min_score.                  |
++----------------------------------------------+---------+--------------------------------------------+
+|| align_featureXML_id_algorithm_min_score        || value  || Minimum score for an ID to be considered. |
+|| (-algorithm:min_score)                      ||        || Applies to the last score calculated.     |
+||                                             ||        ||                                           |
++----------------------------------------------+---------+--------------------------------------------+
+|| align_featureXML_id_algorithm_min_run_occur    || number || Minimum number of runs (incl. reference,  |
+|| (-algorithm:min_run_occur)                  ||        || if any) in which a peptide must occur to  |
+||                                             ||        || be used for the alignment.                |
++----------------------------------------------+---------+--------------------------------------------+
 
 
 
