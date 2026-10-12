@@ -1,161 +1,87 @@
-# Pipeline Name
+# quantitate-ProteomicLFQ
 
-[![Prepare release](https://img.shields.io/badge/Action-Create%20New%20Release-blue)](https://github.com/theboutroslab/template-NextflowPipeline/actions/workflows/prepare-release.yaml)
-
-- [Pipeline Name](#pipeline-name)
+- [quantitate-ProteomicLFQ](#quantitate-proteomiclfq)
   - [Overview](#overview)
   - [How To Run](#how-to-run)
-  - [Flow Diagram](#flow-diagram)
-  - [Pipeline Steps](#pipeline-steps)
-    - [1. Step/Process 1](#1-stepprocess-1)
-    - [2. Step/Process 2](#2-stepprocess-2)
-    - [3. Step/Process n](#3-stepprocess-n)
-  - [Inputs](#inputs)
+  - [Config Options](#config-options)
+    - [Global Params](#global-params)
   - [Outputs](#outputs)
-  - [Testing and Validation](#testing-and-validation)
-    - [Test Data Set](#test-data-set)
-    - [Validation <version number\>](#validation-version-number)
-    - [Validation Tool](#validation-tool)
   - [References](#references)
-  - [Discussions](#discussions)
-  - [Contributors](#contributors)
   - [License](#license)
+
 ## Overview
 
-A 3-4 sentence summary of the pipeline, including the pipeline's purpose, the type of expected scientific inputs/outputs of the pipeline (e.g: FASTQs and BAMs), and a list of tools/steps in the pipeline.
+This pipeline takes the mass spectrometry data from label free data dependent acquisition (DDA) proteomic studies, map them with the library search results, and quantitate peptide abundance. The mass spectrometry data must be in the mzML format, and can be converted from raw files using [ucla-cds/pipeline-convert-MSData](https://github.com/uclahs-cds/pipeline-convert-MSData). The library search result must be in idXML file, which can be generated using the [ucla-cds/pipeline-search-ProteomicMSMS](https://github.com/uclahs-cds/pipeline-search-ProteomicMSMS) and [ucla-cds/pipeline-validate-ProteomicPSM](https://github.com/uclahs-cds/pipeline-validate-ProteomicPSM). The outputted consensusXML can be used downstream for protein inference and quantitation.
+
+![workflow](img/flow-diagram.drawio.svg?raw=true)
+
+In this pipeline we implemented the targeted feature detection algorithm published by [Weisser et al in 2017](https://pubs.acs.org/doi/abs/10.1021/acs.jproteome.7b00248). For each mzML file, the features were first extracted using FFId (FeatureFinderIdentification) with the identification results. The features are then aligned across all samples at the study/cohort level. The retention times are then transformed, and then samples are merged to into consensus features. FFId provides three strategies, as internal-only, int/ext-merged, and machine-learning. For internal-only, only peptide identification results from the corresponding mzML is used. For int/ext-merged, all idXMLs from the same cohort/experiment are first aligned then merged and used to find features. The machine-learning strategy first align all idXMLs but treat internal and external identifications separately. Read the FFId paper for more detail.
 
 ---
 
 ## How To Run
 
-1. Update the params section of the .config file
+1. Create a mzML CSV file (see [this](input/mzML.csv)) or a featureXML CSV file (see [this](input/featureXML.csv)).
 
-2. Update the input yaml
+2. Create a idXML CSV file (see [this](input/idXML.csv))
 
-3. See the submission script, [here](https://github.com/theboutroslab/tool-submit-nf), to submit your pipeline
+3. Create a config file using [this template](config/template.config)
 
----
-
-## Flow Diagram
-
-A directed acyclic graph of your pipeline. The [PlantUML](https://plantuml.com/) code defining this diagram is version-controlled in the [docs/](./docs/) folder, and a [GitHub Action](https://github.com/theboutroslab/tool-PlantUML-action) automatically regenerates the SVG image when that file is changed.
-
-![Pipeline Graph](./docs/pipeline-flow.svg)
+4. For UCLA-CDS cluster users, see the nextflow pipeline submission script [here](https://github.com/uclahs-cds/tool-submit-nf), to submit your pipeline. Otherwise, the pipeline can be launched using `nextflow run` from command line.
 
 ---
 
-## Pipeline Steps
+## Config Options
 
-### 1. Step/Process 1
+### Global Params
 
-> A 2-3 sentence description of each step/proccess in your pipeline that includes the purpose of the step/process, the tool(s) being used and their version, and the expected scientific inputs/outputs (e.g: FASTQs and BAMs) of the pipeline.
+| Parameter | Type  | Description |
+|:----------|:------|:------------|
+| mzML_csv | str | Path to the mzML CSV File. Required when `featureXML_entrypoint` is false. See [this template](input/mzML.csv). |
+| featureXML_csv | str | Path to the featureXML CSV file. Required when `featureXML_entrypoint` is true. See [this template](input/featureXML.csv) for example. Only used in the *de novo* workflow. |
+| idXML_csv | str | Path to the idXML CSV file. See [this template](input/idXML.csv) for example. Note that the idXML files should one per sample for all fractions, not each fraction separated. |
+| output_dir | str | Path to the output directory |
+| project_name | str | Project name. Used as the prefix of the final output. |
+| save_intermediate_files | bool | When true, intermediate files will be saved. |
+| resource_allocation_profile_tag | str | Resource profile in `config/resources.json`. Defaults to `default`. |
+| base_resource_update | map | Optional per-process CPU and memory adjustments using the shared resource handler. |
+| ucla_cds | bool | When true, use the shared UCLA scratch work directory behavior. Resource allocation still uses `resources.json`. |
+| featureXML_entrypoint | bool | When true, `featureXML_csv` is required instead of `mzML.csv`. |
+| merge_featureXML | bool | When false, retention time won't be adjusted between samples and the PSM mapped featureXML will be used for peptide quantitation at the sample level. Applies to both FFId and de novo workflows. Defaults to true. |
+| filter_mapped_features | bool | When true, the features mapped to any PSM are removed and the result featureXML files are saved to final output. This can be useful for tiered custom database searching. |
+| fractionated | bool | Whether the samples have multiple fractions. When true, the input idXML will be split into individual fraction and then each featureXML file will be mapped to its corresponding idXML. |
 
-### 2. Step/Process 2
+In general, most parameters of each program used in the pipeline can be specified from the config files in the format of `<prefix>_<original_arg>`. For example, the value of `find_features_ident_extract_mz_window` is parsed to `FeatureFinderIdentification` as `-extract:mz_window`.
 
-> A 2-3 sentence description of each step/proccess in your pipeline that includes the purpose of the step/process, the tool(s) being used and their version, and the expected scientific inputs/outputs (e.g: FASTQs and BAMs) of the pipeline.
-
-### 3. Step/Process n
-
-> A 2-3 sentence description of each step/proccess in your pipeline that includes the purpose of the step/process, the tool(s) being used and their version, and the expected scientific inputs/outputs (e.g: FASTQs and BAMs) of the pipeline.
-
----
-
-## Inputs
-
-### Input YAML
-
-> include an example of the organization structure within the YAML. Example:
-```yaml
-input 1: 'patient_id'
-input:
-    normal:
-      - id: <normal id>
-        BAM: </path/to/normal.bam>
-    tumor:
-      - id: <tumor id>
-        BAM: </path/to/tumor.bam>
-```
-
-### Config
-
-| Field | Type | Required | Description |
-| ----- | ---- | ------------ | ------------------------ |
-| param 1 | _type_ | yes/no | 1-2 sentence description of the parameter, including any defaults if any. |
-| param 2 | _type_ | yes/no | 1-2 sentence description of the parameter, including any defaults if any. |
-| param n | _type_ | yes/no | 1-2 sentence description of the parameter, including any defaults if any. |
-| `work_dir` | path | no | Path of working directory for Nextflow. When included in the sample config file, Nextflow intermediate files and logs will be saved to this directory. With ucla_cds, the default is `/scratch` and should only be changed for testing/development. Changing this directory to `/hot` or `/tmp` can lead to high server latency and potential disk space limitations, respectively. |
-
-> Include the optional param `work_dir` in the inputs accompanied by a warning of the potentials dangers of using the param. Update the warning if necessary.
+See [here](docs/params.rst) for the complete list of all supported config parameters.
 
 ---
 
 ## Outputs
 
-<!-- List and describe the final output(s) of the pipeline. -->
-
-| Output | Description |
-| ------------ | ------------------------ |
-| ouput 1 | 1 - 2 sentence description of the output. |
-| ouput 2 | 1 - 2 sentence description of the output. |
-| ouput n | 1 - 2 sentence description of the output. |
-
----
-
-## Testing and Validation
-
-### Test Data Set
-
-A 2-3 sentence description of the test data set(s) used to validate and test this pipeline. If possible, include references and links for how to access and use the test dataset
-
-### Validation <version number\>
-
-| Input/Output | Description | Result |
-| ------------ | ------------------------ | ------------------------ |
-| metric 1 | 1 - 2 sentence description of the metric | quantifiable result |
-| metric 2 | 1 - 2 sentence description of the metric | quantifiable result |
-| metric n | 1 - 2 sentence description of the metric | quantifiable result |
-
-- [Reference/External Link/Path 1 to any files/plots or other validation results](<link>)
-- [Reference/External Link/Path 2 to any files/plots or other validation results](<link>)
-- [Reference/External Link/Path n to any files/plots or other validation results](<link>)
-
-### Validation Tool
-
-Included is a template for validating your input files. For more information on the tool check out: https://github.com/theboutroslab/package-PipeVal
+| File name/pattern | Description |
+|:----------------- |:----------- |
+| output/FeatureLinkerUnlabeledQT/*.consensusXML | The consensus feature map with peptide identification data mapped to it. The file can be used for protein inference & quantitation. |
+| output/FileMerger/*.consensusXML | In case of fractionated mzML files, this file is outputted instead of the one above it. |
+| output/ProteinQuantifier/*.csv | Peptide quantification results. |
+| output/FeatureFinderCentroided/*.featureXML | The featureXML generated from each sample's mzML without PSMs mapped to it. |
 
 ---
 
 ## References
 
-1. [Reference 1](<links-to-papers/external-code/documentation/metadata/other-repos/or-anything-else>)
-2. [Reference 2](<links-to-papers/external-code/documentation/metadata/other-repos/or-anything-else>)
-3. [Reference n](<links-to-papers/external-code/documentation/metadata/other-repos/or-anything-else>)
-
----
-
-## Discussions
-
-- [Issue tracker](<link-to-repo-issues-page>) to report errors and enhancement ideas.
-- Discussions can take place in [<pipeline> Discussions](<link-to-repo-discussions-page>)
-- [<pipeline> pull requests](<link-to-repo-pull-requests>) are also open for discussion
-
----
-
-## Contributors
-
-> Update link to repo-specific URL for GitHub Insights Contributors page.
-
-Please see list of [Contributors](https://github.com/theboutroslab/template-NextflowPipeline/graphs/contributors) at GitHub.
+1. Rost HL, Sachsenberg T, Aiche S, Bielow C et al.. OpenMS: a flexible open-source software platform for mass spectrometry data analysis. *Nat Meth*. 2016; 13, 9: 741-748. doi:10.1038/nmeth.3959.
+2. Weisser, Hendrik, and Jyoti S. Choudhary. Targeted feature detection for data-dependent shotgun proteomics. *Journal of proteome research* 16.8 (2017): 2964-2974.
 
 ---
 
 ## License
 
-[pipeline name] is licensed under the GNU General Public License version 2. See the file LICENSE for the terms of the GNU GPL license.
+Author: Chenghao Zhu (ChenghaoZhu@mednet.ucla.edu)
 
-<one line to give the program's name and a brief idea of what it does.>
+[quantitate-ProteomicLFQ] is licensed under the GNU General Public License version 2. See the file LICENSE for the terms of the GNU GPL license.
 
-Copyright (C) 2026 Sanford Burnham Prebys Medical Discovery Institute ("Boutros Lab")
+Copyright (C) 2021 University of California Los Angeles ("Boutros Lab") All rights reserved.
 
 This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
 

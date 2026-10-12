@@ -1,0 +1,5 @@
+sample_name,fraction_id,featureXML
+sample_1,1,/absolute/path/to/sample_1_fr1.featureXML
+sample_1,2,/absolute/path/to/sample_1_fr2.featureXML
+sample_2,1,/absolute/path/to/sample_2_fr1.featureXML
+sample_2,2,/absolute/path/to/sample_2_fr2.featureXML

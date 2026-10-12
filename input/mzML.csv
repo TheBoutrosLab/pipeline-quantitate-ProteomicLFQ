@@ -1,0 +1,5 @@
+sample_name,fraction_id,mzML
+sample_1,1,/absolute/path/to/sample_1_fr1.mzML
+sample_1,2,/absolute/path/to/sample_1_fr2.mzML
+sample_2,1,/absolute/path/to/sample_2_fr1.mzML
+sample_2,2,/absolute/path/to/sample_2_fr2.mzML

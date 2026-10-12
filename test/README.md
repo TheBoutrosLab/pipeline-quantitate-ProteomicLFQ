@@ -1,12 +1,7 @@
-# Pipeline Test Files
+# NFTest fixtures
 
-The test files in this directory were generated synthetically from a tiny SAM file:
+Copy `.env-template` to `.env` and set `TEST_DIR` to the fixture directory.
+`test/run-nftest.sh` sources `.env` inside the Slurm job. The CSV expander
+resolves environment variables to absolute paths in temporary input CSV files.
 
-```
-@HD	VN:1.0	SO:unsorted
-@SQ	SN:chr1	LN:1000
-@RG	ID:sample1	SM:PatientY	LB:lib1	PL:ILLUMINA
-read1	0	chr1	100	60	10M	*	0	0	AAAAAAAAAA	FFFFFFFFFF
-```
-
-FIXME: These files should be removed from any pipelines generated from this template.
+The `test-merged` case remains skipped in `nftest.yml`.

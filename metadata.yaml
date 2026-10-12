@@ -1,0 +1,11 @@
+---
+Category: "pipeline"
+Description: "Nextflow pipeline to quantitate peptides of mass spectrometry based label free proteomic study"
+Maintainers: "Chenghao Zhu ChenghaoZhu@mednet.ucla.edu"
+Contributors: ['Lydia Y. Liu YiyangLiu@mednet.ucla.edu']
+Languages: ["Nextflow", "Docker"]
+Dependencies: ["Java", "Nextflow", "Docker"]
+References: ""
+Tools: ["OpenMS", "PyOpenMS", "MSPTools"]
+Engineering_Owner: []
+Scientific_Owner: []
