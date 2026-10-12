@@ -51,15 +51,7 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../flow-diagram/">Flow Diagram</a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../pipeline-steps/">Pipeline Steps</a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../inputs/">Inputs</a>
+                <li class="toctree-l1"><a class="reference internal" href="../config-options/">Config Options</a>
                 </li>
               </ul>
               <ul>
@@ -67,19 +59,7 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../testing-and-validation/">Testing and Validation</a>
-                </li>
-              </ul>
-              <ul>
                 <li class="toctree-l1"><a class="reference internal" href="../references/">References</a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../discussions/">Discussions</a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../contributors/">Contributors</a>
                 </li>
               </ul>
               <ul>
@@ -102,7 +82,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Overview</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/blob/901c2ee5b421a47e5e8b2fc26b9bb69612346dc1/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/blob/f101b47699640e2da6e90343728ac97e505888b9/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -111,7 +91,9 @@
             <div class="section" itemprop="articleBody">
               
                 <h2 id="overview">Overview</h2>
-<p>A 3-4 sentence summary of the pipeline, including the pipeline's purpose, the type of expected scientific inputs/outputs of the pipeline (e.g: FASTQs and BAMs), and a list of tools/steps in the pipeline.</p>
+<p>This pipeline takes the mass spectrometry data from label free data dependent acquisition (DDA) proteomic studies, map them with the library search results, and quantitate peptide abundance. The mass spectrometry data must be in the mzML format, and can be converted from raw files using <a href="https://github.com/uclahs-cds/pipeline-convert-MSData">ucla-cds/pipeline-convert-MSData</a>. The library search result must be in idXML file, which can be generated using the <a href="https://github.com/uclahs-cds/pipeline-search-ProteomicMSMS">ucla-cds/pipeline-search-ProteomicMSMS</a> and <a href="https://github.com/uclahs-cds/pipeline-validate-ProteomicPSM">ucla-cds/pipeline-validate-ProteomicPSM</a>. The outputted consensusXML can be used downstream for protein inference and quantitation.</p>
+<p><img alt="workflow" src="../img/flow-diagram.drawio.svg?raw=true" /></p>
+<p>In this pipeline we implemented the targeted feature detection algorithm published by <a href="https://pubs.acs.org/doi/abs/10.1021/acs.jproteome.7b00248">Weisser et al in 2017</a>. For each mzML file, the features were first extracted using FFId (FeatureFinderIdentification) with the identification results. The features are then aligned across all samples at the study/cohort level. The retention times are then transformed, and then samples are merged to into consensus features. FFId provides three strategies, as internal-only, int/ext-merged, and machine-learning. For internal-only, only peptide identification results from the corresponding mzML is used. For int/ext-merged, all idXMLs from the same cohort/experiment are first aligned then merged and used to find features. The machine-learning strategy first align all idXMLs but treat internal and external identifications separately. Read the FFId paper for more detail.</p>
 <hr />
               
             </div>

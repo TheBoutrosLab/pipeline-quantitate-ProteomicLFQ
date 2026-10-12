@@ -51,15 +51,7 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../flow-diagram/">Flow Diagram</a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../pipeline-steps/">Pipeline Steps</a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../inputs/">Inputs</a>
+                <li class="toctree-l1"><a class="reference internal" href="../config-options/">Config Options</a>
                 </li>
               </ul>
               <ul>
@@ -67,19 +59,7 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../testing-and-validation/">Testing and Validation</a>
-                </li>
-              </ul>
-              <ul>
                 <li class="toctree-l1"><a class="reference internal" href="../references/">References</a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../discussions/">Discussions</a>
-                </li>
-              </ul>
-              <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../contributors/">Contributors</a>
                 </li>
               </ul>
               <ul>
@@ -102,7 +82,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">How To Run</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/blob/901c2ee5b421a47e5e8b2fc26b9bb69612346dc1/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/blob/f101b47699640e2da6e90343728ac97e505888b9/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -113,13 +93,16 @@
                 <h2 id="how-to-run">How To Run</h2>
 <ol>
 <li>
-<p>Update the params section of the .config file</p>
+<p>Create a mzML CSV file (see <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/blob/f101b47699640e2da6e90343728ac97e505888b9/input/mzML.csv">this</a>) or a featureXML CSV file (see <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/blob/f101b47699640e2da6e90343728ac97e505888b9/input/featureXML.csv">this</a>).</p>
 </li>
 <li>
-<p>Update the input yaml</p>
+<p>Create a idXML CSV file (see <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/blob/f101b47699640e2da6e90343728ac97e505888b9/input/idXML.csv">this</a>)</p>
 </li>
 <li>
-<p>See the submission script, <a href="https://github.com/theboutroslab/tool-submit-nf">here</a>, to submit your pipeline</p>
+<p>Create a config file using <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/blob/f101b47699640e2da6e90343728ac97e505888b9/config/template.config">this template</a></p>
+</li>
+<li>
+<p>For UCLA-CDS cluster users, see the nextflow pipeline submission script <a href="https://github.com/uclahs-cds/tool-submit-nf">here</a>, to submit your pipeline. Otherwise, the pipeline can be launched using <code>nextflow run</code> from command line.</p>
 </li>
 </ol>
 <hr />
@@ -128,7 +111,7 @@
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
         <a href="../overview/" class="btn btn-neutral float-left" title="Overview"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../flow-diagram/" class="btn btn-neutral float-right" title="Flow Diagram">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../config-options/" class="btn btn-neutral float-right" title="Config Options">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -158,7 +141,7 @@
       <span><a href="../overview/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../flow-diagram/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../config-options/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
