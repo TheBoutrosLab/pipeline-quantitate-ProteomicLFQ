@@ -1,12 +1,11 @@
-# Pipeline Test Files
+# NFTest fixtures
 
-The test files in this directory were generated synthetically from a tiny SAM file:
+The existing cases in `nftest.yml` use the original UCLA fixture filenames.
+Their CSV files now reference environment variables instead of UCLA `/hot` paths.
+Copy `.env-template` to `.env` and point the four `LFQ_*` variables at equivalent
+local fixture directories. `test/run-nftest.sh` sources `.env` when launching a
+case in a Slurm job. The CSV expander resolves the variables to a temporary CSV
+for each case; the pipeline still receives ordinary absolute file paths.
 
-```
-@HD	VN:1.0	SO:unsorted
-@SQ	SN:chr1	LN:1000
-@RG	ID:sample1	SM:PatientY	LB:lib1	PL:ILLUMINA
-read1	0	chr1	100	60	10M	*	0	0	AAAAAAAAAA	FFFFFFFFFF
-```
-
-FIXME: These files should be removed from any pipelines generated from this template.
+The two cases already marked `skip: true` in `nftest.yml` remain skipped.
+The isolated `test_split_idXML/test.nf` case also uses `LFQ_MOUSE_DATA_DIR`.

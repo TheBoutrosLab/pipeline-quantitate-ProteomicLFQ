@@ -1,0 +1,48 @@
+---
+global:
+  temp_dir: ./test/work
+  nf_config: test/global.config
+  remove_temp: false
+  clean_logs: true
+
+cases:
+  - name: test-internal-only
+    message: Integration test using the internal-only strategy
+    nf_script: main.nf
+    nf_config: test/test_internal_only/test.config
+    skip: false
+    verbose: true
+
+  - name: test-internal-only-no-merge
+    message: Integration test using the internal-only strategy
+    nf_script: main.nf
+    nf_config: test/test_internal_only_no_merge/test.config
+    skip: false
+    verbose: true
+
+  - name: test-merged
+    message: Integration test using the int/ext-merged strategy
+    nf_script: main.nf
+    nf_config: test/test_merged/test.config
+    skip: true
+    verbose: true
+
+  - name: test-machine-learning
+    message: Integration test using the machine-learning strategy
+    nf_script: main.nf
+    nf_config: test/test_machine_learning/test.config
+    skip: false
+    verbose: true
+
+  - name: test-de-novo
+    message: Test de novo pipeline
+    nf_script: main.nf
+    nf_config: test/test_de_novo/test.config
+    skip: false
+    verbose: true
+
+  - name: test-quantify-peptides--no-peptide-quantified-from-valid-featureXML
+    message: Test `quantify_peptides` process when no peptide can be quantified from a valid featureXML file.
+    nf_script: test/test_quantify_peptides__no_peptide_quantified_from_valid_featureXML/test.nf
+    nf_config: test/test_quantify_peptides__no_peptide_quantified_from_valid_featureXML/test.config
+    verbose: true
