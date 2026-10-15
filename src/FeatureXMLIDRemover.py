@@ -1,6 +1,6 @@
 """ Removes the features that matched to any PSM from the idXML """
 import argparse
-from pyopenms import FeatureXMLFile, FeatureMap, DataProcessing, DateTime
+from pyopenms import FeatureXMLFile, FeatureMap, DataProcessing, DateTime, PeptideIdentificationList
 
 
 PROG_NAME = 'FeatureXMLIDRemover'
@@ -65,7 +65,7 @@ class FeatureXMLIDRemover():
         self.fmap_filtered = FeatureMap(self.fmap)
         self.fmap_filtered.clear(False)
         self.fmap_filtered.setProteinIdentifications([])
-        self.fmap_filtered.setUnassignedPeptideIdentifications([])
+        self.fmap_filtered.setUnassignedPeptideIdentifications(PeptideIdentificationList())
 
         self.add_data_processing()
 

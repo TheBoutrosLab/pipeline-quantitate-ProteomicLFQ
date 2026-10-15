@@ -1,0 +1,7 @@
+sample_name,fraction_id,featureXML
+LFQ_Orbitrap_DDA_Ecoli_01,1,$TEST_DIR/ecoli_lfq/quantitate-ProteomicLFQ-denovo/quantitate-ProteomicLFQ-1.0.0/ECOLI_LFQ/OpenMS-3.5.0/output/FeatureFinderCentroided/LFQ_Orbitrap_DDA_Ecoli_01_reindex_1_FeatureFinder.featureXML
+LFQ_Orbitrap_DDA_Ecoli_01,2,$TEST_DIR/ecoli_lfq/quantitate-ProteomicLFQ-denovo/quantitate-ProteomicLFQ-1.0.0/ECOLI_LFQ/OpenMS-3.5.0/output/FeatureFinderCentroided/LFQ_Orbitrap_DDA_Ecoli_01_reindex_2_FeatureFinder.featureXML
+LFQ_Orbitrap_DDA_Ecoli_01,3,$TEST_DIR/ecoli_lfq/quantitate-ProteomicLFQ-denovo/quantitate-ProteomicLFQ-1.0.0/ECOLI_LFQ/OpenMS-3.5.0/output/FeatureFinderCentroided/LFQ_Orbitrap_DDA_Ecoli_01_reindex_3_FeatureFinder.featureXML
+LFQ_Orbitrap_DDA_Ecoli_02,1,$TEST_DIR/ecoli_lfq/quantitate-ProteomicLFQ-denovo/quantitate-ProteomicLFQ-1.0.0/ECOLI_LFQ/OpenMS-3.5.0/output/FeatureFinderCentroided/LFQ_Orbitrap_DDA_Ecoli_02_reindex_1_FeatureFinder.featureXML
+LFQ_Orbitrap_DDA_Ecoli_02,2,$TEST_DIR/ecoli_lfq/quantitate-ProteomicLFQ-denovo/quantitate-ProteomicLFQ-1.0.0/ECOLI_LFQ/OpenMS-3.5.0/output/FeatureFinderCentroided/LFQ_Orbitrap_DDA_Ecoli_02_reindex_2_FeatureFinder.featureXML
+LFQ_Orbitrap_DDA_Ecoli_02,3,$TEST_DIR/ecoli_lfq/quantitate-ProteomicLFQ-denovo/quantitate-ProteomicLFQ-1.0.0/ECOLI_LFQ/OpenMS-3.5.0/output/FeatureFinderCentroided/LFQ_Orbitrap_DDA_Ecoli_02_reindex_3_FeatureFinder.featureXML

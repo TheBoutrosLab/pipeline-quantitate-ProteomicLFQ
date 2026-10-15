@@ -34,6 +34,13 @@ cases:
     skip: false
     verbose: true
 
+  - name: test-de-novo-featureXML
+    message: Test the de novo featureXML entrypoint with two three-fraction samples
+    nf_script: main.nf
+    nf_config: test/test_de_novo_featureXML/test.config
+    skip: true
+    verbose: true
+
   - name: test-quantify-peptides--no-peptide-quantified-from-valid-featureXML
     message: Test `quantify_peptides` process when no peptide can be quantified from a valid featureXML file.
     nf_script: test/test_quantify_peptides__no_peptide_quantified_from_valid_featureXML/test.nf
