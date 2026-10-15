@@ -12,6 +12,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added a de novo featureXML entrypoint NFTest case and a six-row, two-sample
   featureXML input CSV template.
 
+### Fixed
+
+- Ignored blank lines in mzML fraction validation and reported malformed rows with their
+  line number and values.
+
 ## [1.0.0]
 
 ### Added

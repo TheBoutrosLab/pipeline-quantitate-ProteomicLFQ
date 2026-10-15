@@ -34,7 +34,7 @@ class NFTestCsvTools {
      * Expand environment variables in a CSV and write the result beneath the
      * Nextflow work directory. NFTest removes this with the test work tree.
      */
-    String prepareInputCsv(Object sourceCsv, String testName, Object launchDir) {
+    String prepareInputCsv(Object sourceCsv, String testName, Object launchDir, boolean trailingBlankLine = false) {
         def sourceFile = new File(sourceCsv.toString())
         if (!sourceFile.isFile()) {
             throw new IllegalArgumentException("Test input CSV does not exist: ${sourceFile}")
@@ -51,7 +51,7 @@ class NFTestCsvTools {
 
         // Keep this file after Nextflow exits so failed NFTest runs can be inspected.
         // NFTest already controls cleanup of its test work directory.
-        Files.writeString(expandedCsv.toPath(), expandedContent, StandardCharsets.UTF_8)
+        Files.writeString(expandedCsv.toPath(), expandedContent + (trailingBlankLine ? "\n" : ""), StandardCharsets.UTF_8)
 
         return expandedCsv.absolutePath
     }
