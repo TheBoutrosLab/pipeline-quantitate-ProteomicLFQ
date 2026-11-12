@@ -86,7 +86,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Quantification with OpenMS 3.6</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/blob/048aa7b85f7dc16536279865810685c6acfc98b3/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/blob/c5b8bc631005b17bb1f6c0a2b355b646baa66678/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -100,9 +100,14 @@ FFId strategies retain OpenMS and pyOpenMS 3.5.0 for processing before ProteinQu
 OpenMS 3.6 removed the external-ID and SVM options those strategies require.
 ProteinQuantifier runs with OpenMS 3.6.0 for every workflow.</p>
 <p>For fractionated cohorts, the pipeline gives each consensusXML column a unique
-sample-and-fraction filename and annotates its sample name, fraction number, and
-fraction group before merging fractions. This lets OpenMS 3.6 recognize one
-assay per sample across all fractions.</p>
+sample-and-fraction filename and annotates its sample name, fraction number,
+original <code>fraction_id</code>, and fraction group before merging fractions. This lets OpenMS 3.6 recognize one
+assay per sample across all fractions. Fraction IDs in the input CSV can be
+text labels; the original labels remain in output filenames while OpenMS
+receives a positive integer fraction number assigned by each distinct label’s
+first appearance in the input CSV. The top-level workflow attaches the number to each input file as it reads
+the CSV. The linked consensusXML receives the matching number by fraction
+label, regardless of channel arrival order.</p>
 <p><code>protein_quantifier_fractions_aggregate</code> defaults to <code>sum</code>: all fractions of a
 sample contribute to its assay abundance. Set it to <code>best</code> only when one
 fraction per peptide should represent the sample. The separate
