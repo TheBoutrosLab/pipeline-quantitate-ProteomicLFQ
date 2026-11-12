@@ -22,6 +22,7 @@ process set_consensusXMLColumnHeaders {
     input:
         tuple(
             val(sample_name),
+            val(fraction_number),
             val(column_headers),
             file(input_consensusXML)
         )
@@ -34,8 +35,9 @@ process set_consensusXMLColumnHeaders {
     output_consensusXML = "${sample_name}_setColumnHeaders.consensusXML"
     sample_names = column_headers instanceof List ? column_headers : [column_headers]
     all_samples = params.unique_sample_names.toList().sort().join(' ')
-    fraction_args = params.fractionated && params.number_of_samples > 1 ?
-        "--fraction ${sample_name} --all-samples ${all_samples}" : ''
+    fraction_label_arg = "'" + sample_name.toString().replace("'", "'\"'\"'") + "'"
+    fraction_args = fraction_number > 0 ?
+        "--fraction-id ${fraction_label_arg} --fraction-number ${fraction_number} --all-samples ${all_samples}" : ''
     """
     python ${projectDir}/src/SetConsensusColumnHeaders.py \\
         --input-path ${input_consensusXML} \\

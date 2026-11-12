@@ -16,19 +16,17 @@ include { quantify_peptides } from "${projectDir}/modules/quantify_peptides"
 include { reheader_PeptideQuantCSV } from "${projectDir}/modules/reheader_PeptideQuantCSV"
 
 workflow ffid {
-    if (params.fractionated) {
-        ich_mzML = Channel.fromPath(params.mzML_csv)
-            .splitCsv(header:true)
-            .map {[it.sample_name, it.fraction_id, file(it.mzML)]}
-    } else {
-        ich_mzML = Channel.fromPath(params.mzML_csv)
-            .splitCsv(header:true)
-            .map {[it.sample_name, 1, file(it.mzML)]}
-    }
+    take:
+    ich_mzML_files
+    ich_idXML
 
-    ich_idXML = Channel.fromPath(params.idXML_csv)
-        .splitCsv(header:true)
-        .map {[it.sample_name, file(it.idXML)]}
+    main:
+    ich_fraction_numbers = ich_mzML_files.map { sample, fractionId, number, inputFile ->
+        [params.fractionated ? fractionId : 1, number]
+    }.unique()
+    ich_mzML = ich_mzML_files.map { sample, fractionId, number, mzML ->
+        [sample, params.fractionated ? fractionId : 1, mzML]
+    }
 
     // Create pairs of mzML and idXML for each fraction.
     if (params.fractionated) {
@@ -206,7 +204,12 @@ workflow ffid {
                 }}
             // FeatureLinkerUnlabeledQT: combine featureXMLs to consensusXML
             link_features(ich_fraction_transformed_featureXML)
-            set_consensusXMLColumnHeaders(link_features.out[0])
+            ch_fraction_consensusXML = link_features.out[0]
+                .join(ich_fraction_numbers, by: 0)
+                .map { fractionId, sampleNames, consensusXML, number ->
+                    [fractionId, params.fractionated ? number : 0, sampleNames, consensusXML]
+                }
+            set_consensusXMLColumnHeaders(ch_fraction_consensusXML)
 
             if (params.fractionated) {
                 ch_fraction_consensusXMLs = set_consensusXMLColumnHeaders.out[0]
@@ -230,14 +233,14 @@ workflow ffid {
                 ch_sample_consensusXML = convert_featureXML2consensusXML.out[0]
                     .map { [it[0], it[0], it[1]] }
 
-                set_consensusXMLColumnHeaders(ch_sample_consensusXML)
+                set_consensusXMLColumnHeaders(ch_sample_consensusXML.map { [it[0], 0, it[1], it[2]] })
                 ich_sample_consensusXML = set_consensusXMLColumnHeaders.out[0]
             } else {
                 convert_featureXML2consensusXML(find_features_id.out[0].map { [it[0], it[2]] })
                 ch_sample_consensusXML = convert_featureXML2consensusXML.out[0]
                     .map { [it[0], it[0], it[1]] }
 
-                set_consensusXMLColumnHeaders(ch_sample_consensusXML)
+                set_consensusXMLColumnHeaders(ch_sample_consensusXML.map { [it[0], 0, it[1], it[2]] })
                 ich_sample_consensusXML = set_consensusXMLColumnHeaders.out[0]
             }
         }

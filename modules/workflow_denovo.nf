@@ -16,17 +16,22 @@ include { convert_featureXML2consensusXML } from "${projectDir}/modules/convert_
 include { set_consensusXMLColumnHeaders } from "${projectDir}/modules/set_consensusXMLColumnHeaders"
 
 workflow denovo {
-    if (params.featureXML_entrypoint == true) { // featureXML entrypoint
-        ich_featureXML = Channel.fromPath(params.featureXML_csv)
-            .splitCsv(header:true)
-            .map {[it.sample_name, it.fraction_id, file(it.featureXML)]}
-    } else { // mzML entrypoint
-        ich_mzML = Channel.fromPath(params.mzML_csv)
-            .splitCsv(header:true)
-            .map {[it.sample_name, it.fraction_id, file(it.mzML)]}
+    take:
+    ich_input_files
+    ich_idXML
 
+    main:
+    ich_fraction_numbers = ich_input_files.map { sample, fractionId, number, inputFile ->
+        [fractionId, number]
+    }.unique()
+    ich_input = ich_input_files.map { sample, fractionId, number, inputFile ->
+        [sample, fractionId, inputFile]
+    }
+    if (params.featureXML_entrypoint == true) {
+        ich_featureXML = ich_input
+    } else {
         // FeatureFinderCentroided
-        find_features_centroided(ich_mzML)
+        find_features_centroided(ich_input)
         ich_featureXML = find_features_centroided.out[0]
     }
 
@@ -36,10 +41,6 @@ workflow denovo {
     *   [sample_name, fraction_id, featureXML]
     * ]
     */
-
-    ich_idXML = Channel.fromPath(params.idXML_csv)
-        .splitCsv(header:true)
-        .map {[it.sample_name, file(it.idXML)]}
 
     if (params.fractionated) {
         // IDRipper
@@ -127,7 +128,12 @@ workflow denovo {
                 }}
             // FeatureLinkerUnlabeledQT: combine featureXMLs to consensusXML
             link_features(ich_fraction_featureXMLs)
-            set_consensusXMLColumnHeaders(link_features.out[0])
+            ch_fraction_consensusXML = link_features.out[0]
+                .join(ich_fraction_numbers, by: 0)
+                .map { fractionId, sampleNames, consensusXML, number ->
+                    [fractionId, params.fractionated ? number : 0, sampleNames, consensusXML]
+                }
+            set_consensusXMLColumnHeaders(ch_fraction_consensusXML)
 
             if (params.fractionated) {
                 ch_fraction_consensusXMLs = set_consensusXMLColumnHeaders.out[0]
@@ -149,7 +155,7 @@ workflow denovo {
             convert_featureXML2consensusXML(set_featureXMLSpectraPath.out[0])
             ch_sample_consensusXML = convert_featureXML2consensusXML.out[0]
                 .map { [it[0], it[0], it[1]] }
-            set_consensusXMLColumnHeaders(ch_sample_consensusXML)
+            set_consensusXMLColumnHeaders(ch_sample_consensusXML.map { [it[0], 0, it[1], it[2]] })
             ich_consensusXML = set_consensusXMLColumnHeaders.out[0]
         }
 

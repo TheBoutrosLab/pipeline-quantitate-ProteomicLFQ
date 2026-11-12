@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Accepted text fraction IDs in linked LFQ cohorts by mapping labels to
+  positive OpenMS fraction numbers in CSV order while retaining labels in
+  filenames and `fraction_id` metadata.
+
 ## [1.1.0] - 2026-11-12
 
 ### Changed
