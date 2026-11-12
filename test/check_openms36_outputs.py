@@ -65,14 +65,10 @@ def main() -> None:
         assert {table.name for table in tables} == {
             f"{sample}_ProteinQuantifier_peptide.csv" for sample in SAMPLES
         }, tables
-        pre_maps = list(args.output_root.rglob("output/*_setColumnHeaders.consensusXML"))
-        assert {path.name for path in pre_maps} == {
-            f"{sample}_setColumnHeaders.consensusXML" for sample in SAMPLES
-        }, pre_maps
-        final_maps = list(args.output_root.rglob("output/*_IDConflictResolver.consensusXML"))
-        assert {path.name for path in final_maps} == {
-            f"{sample}_IDConflictResolver.consensusXML" for sample in SAMPLES
-        }, final_maps
+        feature_maps = list(args.output_root.rglob("output/*_setSpectraPath.featureXML"))
+        assert {path.name for path in feature_maps} == {
+            f"{sample}_setSpectraPath.featureXML" for sample in SAMPLES
+        }, feature_maps
         for table in tables:
             peptide_table(table, 1)
 
