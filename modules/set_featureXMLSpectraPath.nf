@@ -1,13 +1,14 @@
 
 process set_featureXMLSpectraPath {
-    container params.docker_image_msptools
+    container params.docker_image_pyopenms_processing
+    containerOptions "-v ${projectDir}/src/:${projectDir}/src/"
 
     publishDir "${params.intermediate_file_dir}/${task.process.replace(':','/')}",
         enabled: params.save_intermediate_files == true && params.merge_featureXML == true,
         mode: 'copy',
         pattern: "*.featureXML"
 
-    publishDir "${params.final_output_dir}/set_featureXMLSpectraPath",
+    publishDir "${params.final_output_dir}",
         enabled: params.merge_featureXML == false,
         mode: 'copy',
         pattern: "*.featureXML"
@@ -33,7 +34,7 @@ process set_featureXMLSpectraPath {
     script:
     output_featureXML = "${sample_name}_setSpectraPath.featureXML"
     """
-    msptools FeatureXML setSpectraPath \\
+    python ${projectDir}/src/SetFeatureXMLSpectraPath.py \\
         --input-path ${input_featureXMLs} \\
         --output-path ${output_featureXML} \\
         --spectra-path ${sample_name}

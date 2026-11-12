@@ -13,6 +13,7 @@ include { set_consensusXMLColumnHeaders } from "${projectDir}/modules/set_consen
 include { set_featureXMLSpectraPath } from "${projectDir}/modules/set_featureXMLSpectraPath"
 include { resolve_conflict } from "${projectDir}/modules/resolve_conflict"
 include { quantify_peptides } from "${projectDir}/modules/quantify_peptides"
+include { reheader_PeptideQuantCSV } from "${projectDir}/modules/reheader_PeptideQuantCSV"
 
 workflow ffid {
     if (params.fractionated) {
@@ -245,6 +246,7 @@ workflow ffid {
 
         // ProteinQuantfier: quantify peptides
         quantify_peptides(resolve_conflict.out[0])
+        reheader_PeptideQuantCSV(quantify_peptides.out[0])
     } else {
         // Merge fractions
         ich_sample_featureXMLs = find_features_id.out[0]
@@ -254,5 +256,6 @@ workflow ffid {
 
         set_featureXMLSpectraPath(merge_featureXML.out[0])
         quantify_peptides(set_featureXMLSpectraPath.out[0])
+        reheader_PeptideQuantCSV(quantify_peptides.out[0])
     }
 }

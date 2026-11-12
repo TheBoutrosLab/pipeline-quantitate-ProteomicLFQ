@@ -5,7 +5,11 @@ Config Params
 FeatureFinderIdentification (process: find_features_id)
 #######################################################
 
-See `here <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_FeatureFinderIdentification.html>`_ for OpenMS's documentation of FeatureFinderIdentification.
+See `here <https://openms.de/doxygen/release/3.6.0/html/TOPP_FeatureFinderIdentification.html>`_ for OpenMS's documentation of FeatureFinderIdentification.
+
+The merged and machine-learning FFId strategies use OpenMS 3.5.0; their
+external-ID and SVM settings are unavailable to the OpenMS 3.6.0 internal-only
+strategy.
 
 
 +-----------------------------------------------+---------+----------------------------------------------+
@@ -91,7 +95,7 @@ See `here <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documen
 MapAlignerIdentification (process: align_featureXML_id)
 #######################################################
 
-See `here <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_MapAlignerIdentification.html>`_ for OpenMS's documentation of MapAlignerIdentification.
+See `here <https://openms.de/doxygen/release/3.6.0/html/TOPP_MapAlignerIdentification.html>`_ for OpenMS's documentation of MapAlignerIdentification.
 
 
 +----------------------------------------------+---------+--------------------------------------------+
@@ -127,7 +131,7 @@ See `here <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documen
 MapAlignerIdentification (process: align_idXML)
 ###############################################
 
-See `here <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_MapAlignerIdentification.html>`_ for OpenMS's documentation of MapAlignerIdentification.
+See `here <https://openms.de/doxygen/release/3.6.0/html/TOPP_MapAlignerIdentification.html>`_ for OpenMS's documentation of MapAlignerIdentification.
 
 
 +--------------------------------------+---------+-------------------------------------------------+
@@ -163,7 +167,7 @@ See `here <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documen
 MapRTTransformer (process: transform_rt)
 ########################################
 
-See `here <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_MapRTTransformer.html>`_ for OpenMS's documentation of MapRTTransformer.
+See `here <https://openms.de/doxygen/release/3.6.0/html/TOPP_MapRTTransformer.html>`_ for OpenMS's documentation of MapRTTransformer.
 
 
 +-----------------------------------------------+---------+----------------------------------------+
@@ -322,7 +326,7 @@ See `here <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documen
 FeatureLinkerUnlabeledQT (process: link_features)
 #################################################
 
-See `here <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_FeatureLinkerUnlabeledQT.html>`_ for OpenMS's documentation of FeatureLinkerUnlabeledQT.
+See `here <https://openms.de/doxygen/release/3.6.0/html/TOPP_FeatureLinkerUnlabeledQT.html>`_ for OpenMS's documentation of FeatureLinkerUnlabeledQT.
 
 
 +-------------------------------------------------+---------+--------------------------------------+
@@ -377,7 +381,7 @@ See `here <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documen
 IDConflictResolver (process: resolve_conflict)
 ##############################################
 
-See `here <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_IDConflictResolver.html>`_ for OpenMS's documentation of IDConflictResolver.
+See `here <https://openms.de/doxygen/release/3.6.0/html/TOPP_IDConflictResolver.html>`_ for OpenMS's documentation of IDConflictResolver.
 
 
 +---------------------------------------------+---------------------------+------------------------+
@@ -418,21 +422,23 @@ See `here <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documen
 ProteinQuantifier (process: quantify_peptides)
 ##############################################
 
-See `here <https://abibuilder.informatik.uni-tuebingen.de/archive/openms/Documentation/nightly/html/TOPP_ProteinQuantifier.html>`_ for OpenMS's documentation of ProteinQuantifier.
+See `here <https://openms.de/doxygen/release/3.6.0/html/TOPP_ProteinQuantifier.html>`_ for OpenMS's documentation of ProteinQuantifier.
 
 
 +----------------------------------------------+---------+-----------------------------------------+
 | Parameter                                    | Type    | Description                             |
 +==============================================+=========+=========================================+
-|| protein_quantifier_best_charge_and_fraction || bool   ||          Distinguish between fraction  |
-|| (-best_charge_and_fraction)                 ||        || and charge states of a peptide. For    |
-||                                             ||        || peptides, abundances will be reported  |
-||                                             ||        || separately for each fraction and       |
-||                                             ||        || charge;                                |
+|| protein_quantifier_best_charge               || bool   || Report peptide rows by fraction and    |
+|| (-best_charge)                               ||        || charge; select one charge per peptide  |
+||                                              ||        || for protein quantification. Fraction  |
+||                                              ||        || aggregation is separate.               |
 +----------------------------------------------+---------+-----------------------------------------+
 || protein_quantifier_consensus_normalize      || bool   ||               Scale peptide abundances |
 || (-consensus:normalize)                      ||        || so that medians of all samples are     |
 ||                                             ||        || equal                                  |
++----------------------------------------------+---------+-----------------------------------------+
+|| protein_quantifier_fractions_aggregate      || choice || Combine fractions by sum (default) or |
+|| (-fractions:aggregate)                       ||        || best (one fraction per peptide).      |
 +----------------------------------------------+---------+-----------------------------------------+
 || protein_quantifier_format_separator         || sep    || Character(s) used to separate fields;  |
 || (-format:separator)                         ||        || by default, the 'tab' character is     |

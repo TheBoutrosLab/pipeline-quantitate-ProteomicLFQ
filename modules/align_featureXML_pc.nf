@@ -41,7 +41,7 @@ PARAMETER_MAPPER = [
 FLAG_MAPPER = [:]
 
 process align_featureXML_pc {
-    container params.docker_image_openms
+    container params.docker_image_openms_processing
 
     publishDir "${params.intermediate_file_dir}/${task.process.replace(':', '/')}/",
         mode: 'copy',

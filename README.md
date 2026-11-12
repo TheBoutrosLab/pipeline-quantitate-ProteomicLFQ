@@ -5,6 +5,7 @@
   - [How To Run](#how-to-run)
   - [Config Options](#config-options)
     - [Global Params](#global-params)
+  - [Quantification with OpenMS 3.6](#quantification-with-openms-36)
   - [Outputs](#outputs)
   - [References](#references)
   - [License](#license)
@@ -57,14 +58,47 @@ See [here](docs/params.rst) for the complete list of all supported config parame
 
 ---
 
+## Quantification with OpenMS 3.6
+
+OpenMS and pyOpenMS default to version 3.6.0. The merged and machine-learning
+FFId strategies retain OpenMS and pyOpenMS 3.5.0 for processing before ProteinQuantifier;
+OpenMS 3.6 removed the external-ID and SVM options those strategies require.
+ProteinQuantifier runs with OpenMS 3.6.0 for every workflow.
+
+For fractionated cohorts, the pipeline gives each consensusXML column a unique
+sample-and-fraction filename and annotates its sample name, fraction number, and
+fraction group before merging fractions. This lets OpenMS 3.6 recognize one
+assay per sample across all fractions.
+
+`protein_quantifier_fractions_aggregate` defaults to `sum`: all fractions of a
+sample contribute to its assay abundance. Set it to `best` only when one
+fraction per peptide should represent the sample. The separate
+`protein_quantifier_best_charge` flag (default `false`) selects one charge per
+modified peptide for protein quantification and produces detailed peptide CSV
+rows for each observed fraction and charge. Without it, the peptide CSV has
+one row per peptide with `fraction` set to `all`. The published peptide CSV renames OpenMS assay columns to
+`abundance|<sample_name>`. The detailed output from `-best_charge` instead
+uses file and channel columns. Ratio columns are no longer produced by
+ProteinQuantifier; calculate contrasts downstream if needed. See the
+[OpenMS 3.6 ProteinQuantifier documentation](https://openms.de/doxygen/release/3.6.0/html/TOPP_ProteinQuantifier.html).
+
+OpenMS 3.6 also changed the automatic reference used by MapAlignerIdentification.
+This pipeline selects `consensus` by default to preserve its previous RT
+alignment behavior. The `align_featureXML_id_algorithm_auto_reference` and
+`align_idXML_algorithm_auto_reference` parameters can override that choice
+for 3.6 workflows.
+
 ## Outputs
+
+Final results are saved under `<output_dir>/quantitate-ProteomicLFQ-<version>/OpenMS-<version>/output/`. The `project_name` prefixes cohort-wide files; individual-sample files use their sample names.
 
 | File name/pattern | Description |
 |:----------------- |:----------- |
-| output/FeatureLinkerUnlabeledQT/*.consensusXML | The consensus feature map with peptide identification data mapped to it. The file can be used for protein inference & quantitation. |
-| output/FileMerger/*.consensusXML | In case of fractionated mzML files, this file is outputted instead of the one above it. |
-| output/ProteinQuantifier/*.csv | Peptide quantification results. |
-| output/FeatureFinderCentroided/*.featureXML | The featureXML generated from each sample's mzML without PSMs mapped to it. |
+| `*_FileMerger.consensusXML` | Map immediately before conflict resolution for fractionated, linked cohorts. |
+| `*_setColumnHeaders.consensusXML` | Map immediately before conflict resolution for routes that quantify samples independently. |
+| `*_IDConflictResolver.consensusXML` | Final consensus map passed to ProteinQuantifier after resolving identification conflicts. |
+| `*_ProteinQuantifier_peptide.csv` | Peptide quantification results from OpenMS 3.6. Linked cohorts produce a cohort CSV; independent sample processing produces one CSV per sample. |
+| `*_FeatureFinder.featureXML` | The featureXML generated from each sample's mzML without PSMs mapped to it. |
 
 ---
 

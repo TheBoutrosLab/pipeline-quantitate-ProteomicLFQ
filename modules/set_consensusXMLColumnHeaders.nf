@@ -1,8 +1,16 @@
 
 process set_consensusXMLColumnHeaders {
-    container params.docker_image_msptools
+    container params.docker_image_pyopenms_processing
+    containerOptions "-v ${projectDir}/src/:${projectDir}/src/"
 
-    publishDir "${params.final_output_dir}/MSPtools_ConsensusXML_setColumnHeaders",
+    publishDir "${params.final_output_dir}",
+        enabled: !(params.merge_featureXML && params.number_of_samples > 1 && params.fractionated),
+        mode: 'copy',
+        pattern: "*.consensusXML"
+
+    publishDir "${params.intermediate_file_dir}/${task.process.replace(':','/')}",
+        enabled: params.save_intermediate_files && params.merge_featureXML &&
+            params.number_of_samples > 1 && params.fractionated,
         mode: 'copy',
         pattern: "*.consensusXML"
 
@@ -24,11 +32,15 @@ process set_consensusXMLColumnHeaders {
 
     script:
     output_consensusXML = "${sample_name}_setColumnHeaders.consensusXML"
-    column_headers = column_headers in List ? column_headers.join(' ') : column_headers
+    sample_names = column_headers instanceof List ? column_headers : [column_headers]
+    all_samples = params.unique_sample_names.toList().sort().join(' ')
+    fraction_args = params.fractionated && params.number_of_samples > 1 ?
+        "--fraction ${sample_name} --all-samples ${all_samples}" : ''
     """
-    msptools ConsensusXML setColumnHeaders \\
+    python ${projectDir}/src/SetConsensusColumnHeaders.py \\
         --input-path ${input_consensusXML} \\
         --output-path ${output_consensusXML} \\
-        --column-headers ${column_headers}
+        --sample-names ${sample_names.join(' ')} \\
+        ${fraction_args}
     """
 }

@@ -12,6 +12,7 @@ PARAMETER_MAPPER = [
     'align_featureXML_id_reference_file': '-reference:file',
     'align_featureXML_id_reference_index': '-reference:index',
     'align_featureXML_id_design': '-design',
+    'align_featureXML_id_algorithm_auto_reference': '-algorithm:auto_reference',
     'align_featureXML_id_algorithm_score_cutoff': '-algorithm:score_cutoff',
     'align_featureXML_id_algorithm_min_score': '-algorithm:min_score',
     'align_featureXML_id_algorithm_min_run_occur': '-algorithm:min_run_occur'
@@ -20,7 +21,7 @@ PARAMETER_MAPPER = [
 FLAG_MAPPER = [:]
 
 process align_featureXML_id {
-    container params.docker_image_openms
+    container params.docker_image_openms_processing
 
     publishDir "${params.intermediate_file_dir}/${task.process.replace(':', '/')}/",
         mode: 'copy',

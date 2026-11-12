@@ -31,15 +31,10 @@ PARAMETER_MAPPER = [
 FLAG_MAPPER = [:]
 
 process link_features {
-    container params.docker_image_openms
-
-    publishDir "${params.final_output_dir}/FeatureLinkerUnlabeledQT",
-        mode: 'copy',
-        enabled: params.fractionated == false,
-        pattern: "*.consensusXML"
+    container params.docker_image_openms_processing
 
     publishDir "${params.intermediate_file_dir}/${task.process.replace(':','/')}",
-        enabled: params.save_intermediate_files && params.fractionated == true,
+        enabled: params.save_intermediate_files,
         mode: 'copy',
         pattern: "*.consensusXML"
 

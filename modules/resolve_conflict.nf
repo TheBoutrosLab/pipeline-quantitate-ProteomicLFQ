@@ -11,10 +11,9 @@ PARAMETER_MAPPER = [
 FLAG_MAPPER = [:]
 
 process resolve_conflict {
-    container params.docker_image_openms
+    container params.docker_image_openms_processing
 
-    publishDir "${params.intermediate_file_dir}/${task.process.replace(':','/')}",
-        enabled: params.save_intermediate_files,
+    publishDir "${params.final_output_dir}",
         mode: 'copy',
         pattern: "*.consensusXML"
 
