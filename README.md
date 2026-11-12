@@ -66,9 +66,14 @@ OpenMS 3.6 removed the external-ID and SVM options those strategies require.
 ProteinQuantifier runs with OpenMS 3.6.0 for every workflow.
 
 For fractionated cohorts, the pipeline gives each consensusXML column a unique
-sample-and-fraction filename and annotates its sample name, fraction number, and
-fraction group before merging fractions. This lets OpenMS 3.6 recognize one
-assay per sample across all fractions.
+sample-and-fraction filename and annotates its sample name, fraction number,
+original `fraction_id`, and fraction group before merging fractions. This lets OpenMS 3.6 recognize one
+assay per sample across all fractions. Fraction IDs in the input CSV can be
+text labels; the original labels remain in output filenames while OpenMS
+receives a positive integer fraction number assigned by each distinct label’s
+first appearance in the input CSV. The top-level workflow attaches the number to each input file as it reads
+the CSV. The linked consensusXML receives the matching number by fraction
+label, regardless of channel arrival order.
 
 `protein_quantifier_fractions_aggregate` defaults to `sum`: all fractions of a
 sample contribute to its assay abundance. Set it to `best` only when one
