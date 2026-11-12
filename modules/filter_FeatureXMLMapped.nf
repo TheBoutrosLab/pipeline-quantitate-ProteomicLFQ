@@ -2,7 +2,7 @@ process filter_FeatureXMLMapped {
     container params.docker_image_pyopenms
     containerOptions "-v ${projectDir}/src/:${projectDir}/src/"
 
-    publishDir "${params.final_output_dir}/FeatureXMLIDRemover",
+    publishDir "${params.final_output_dir}",
         mode: 'copy',
         pattern: "*.featureXML"
 

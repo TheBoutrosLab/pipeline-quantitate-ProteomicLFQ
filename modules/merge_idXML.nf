@@ -1,6 +1,6 @@
 
 process merge_idXML {
-    container params.docker_image_openms
+    container params.docker_image_openms_processing
 
     publishDir "${params.intermediate_file_dir}/${task.process.replace(':','/')}",
         enabled: params.save_intermediate_files,

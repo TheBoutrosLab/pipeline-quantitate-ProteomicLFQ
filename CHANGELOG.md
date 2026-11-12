@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Aligned final output layout with TMT: files are published directly under
+  `OpenMS-<version>/output/`, without project or tool subdirectories. The final
+  IDConflictResolver consensusXML used for quantification and its immediate
+  precursor are both published there.
+- Upgraded OpenMS and pyOpenMS defaults to 3.6.0 while retaining OpenMS and pyOpenMS 3.5.0
+  processing for merged and machine-learning FFId strategies.
+- Migrated ProteinQuantifier to `-best_charge` and explicit `-fractions:aggregate sum`,
+  removed the unsupported ratios option, and preserved consensus RT alignment.
+- Annotated cohort consensusXML columns with sample and fraction metadata for
+  OpenMS 3.6 assay aggregation.
+
+### Fixed
+
+- Kept fraction-specific reheadered consensusXML in intermediate outputs only
+  when `save_intermediate_files` is enabled.
+- Renamed peptide abundance CSV columns to `abundance|<sample_name>` using
+  the consensusXML sample design.
+- Restricted expected-empty peptide quantification handling to its exact error.
+- Gave fractionated consensus columns unique filenames and ignored blank CSV
+  lines when counting samples for OpenMS 3.6 quantification.
+
 ## [1.0.1] - 2026-10-15
 
 ### Added

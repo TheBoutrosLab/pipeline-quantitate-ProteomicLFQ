@@ -8,7 +8,7 @@ from jinja2 import Environment, FileSystemLoader
 
 # pylint: disable=W1401
 
-DOCKER_REPO = 'ghcr.io/theboutroslab/openms-thirdparty:3.5.0'
+DOCKER_REPO = 'ghcr.io/theboutroslab/openms-thirdparty:3.6.0'
 MODULE_COMMANDS = {
         'find_features_id': {
             'command': 'FeatureFinderIdentification',

@@ -8,6 +8,7 @@ include { transform_rt } from "${projectDir}/modules/transform_rt"
 include { link_features } from "${projectDir}/modules/link_features"
 include { resolve_conflict } from "${projectDir}/modules/resolve_conflict"
 include { quantify_peptides } from "${projectDir}/modules/quantify_peptides"
+include { reheader_PeptideQuantCSV } from "${projectDir}/modules/reheader_PeptideQuantCSV"
 include { filter_FeatureXMLMapped } from "${projectDir}/modules/filter_FeatureXMLMapped"
 include { merge_featureXML } from "${projectDir}/modules/merge_featureXML"
 include { merge_consensusXML } from "${projectDir}/modules/merge_consensusXML"
@@ -157,6 +158,7 @@ workflow denovo {
 
         // ProteinQuantfier: quantify peptides
         quantify_peptides(resolve_conflict.out[0])
+        reheader_PeptideQuantCSV(quantify_peptides.out[0])
     } else {
         // Merge fractions
         ich_sample_featureXMLs = map_idXML.out[0]
@@ -166,5 +168,6 @@ workflow denovo {
 
         set_featureXMLSpectraPath(merge_featureXML.out[0])
         quantify_peptides(set_featureXMLSpectraPath.out[0])
+        reheader_PeptideQuantCSV(quantify_peptides.out[0])
     }
 }

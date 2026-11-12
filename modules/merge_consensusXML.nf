@@ -1,7 +1,7 @@
 process merge_consensusXML {
-    container params.docker_image_openms
+    container params.docker_image_openms_processing
 
-    publishDir "${params.final_output_dir}/FileMerger",
+    publishDir "${params.final_output_dir}",
         mode: 'copy',
         pattern: "*.consensusXML"
 

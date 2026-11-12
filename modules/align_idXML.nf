@@ -12,6 +12,7 @@ PARAMETER_MAPPER = [
     'align_idXML_reference_file': '-reference:file',
     'align_idXML_reference_index': '-reference:index',
     'align_idXML_design': '-design',
+    'align_idXML_algorithm_auto_reference': '-algorithm:auto_reference',
     'align_idXML_algorithm_score_cutoff': '-algorithm:score_cutoff',
     'align_idXML_algorithm_min_score': '-algorithm:min_score',
     'align_idXML_algorithm_min_run_occur': '-algorithm:min_run_occur'
@@ -20,7 +21,7 @@ PARAMETER_MAPPER = [
 FLAG_MAPPER = [:]
 
 process align_idXML {
-    container params.docker_image_openms
+    container params.docker_image_openms_processing
 
     publishDir "${params.intermediate_file_dir}/${task.process.replace(':','/')}",
         enabled: params.save_intermediate_files,

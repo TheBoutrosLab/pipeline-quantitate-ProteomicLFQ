@@ -19,7 +19,7 @@ FLAG_MAPPER = [
 ]
 
 process normalize_ConsensusXML {
-    container params.docker_image_openms
+    container params.docker_image_openms_processing
 
     publishDir "${params.intermediate_file_dir}/${task.process.replace(':', '/')}/",
         mode: 'copy',

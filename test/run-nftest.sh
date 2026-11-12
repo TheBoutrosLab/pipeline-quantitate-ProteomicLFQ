@@ -45,4 +45,13 @@ echo "Test case:  ${TEST_CASE}"
 echo "Test dir:   ${TEST_RUN_DIR}"
 echo "Output dir: ${OUTPUT_DIR}"
 
-exec nftest run -c "${REPO_DIR}/nftest.yml" "${TEST_CASE}"
+nftest run -c "${REPO_DIR}/nftest.yml" "${TEST_CASE}"
+
+case "${TEST_CASE}" in
+    test-internal-only)
+        python3 "${REPO_DIR}/test/check_openms36_outputs.py" "${OUTPUT_DIR}" fractionated-cohort
+        ;;
+    test-unfractionated)
+        python3 "${REPO_DIR}/test/check_openms36_outputs.py" "${OUTPUT_DIR}" unfractionated-samples
+        ;;
+esac

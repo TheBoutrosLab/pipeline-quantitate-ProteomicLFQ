@@ -41,9 +41,9 @@ PARAMETER_MAPPER = [
 FLAG_MAPPER = [:]
 
 process find_features_centroided {
-    container params.docker_image_openms
+    container params.docker_image_openms_processing
 
-    publishDir "${params.final_output_dir}/FeatureFinderCentroided/",
+    publishDir "${params.final_output_dir}",
         mode: 'copy',
         pattern: "*.featureXML"
 

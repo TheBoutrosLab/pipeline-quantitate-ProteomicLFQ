@@ -24,9 +24,9 @@ PARAMETER_MAPPER = [
 FLAG_MAPPER = [:]
 
 process map_idXML {
-    container params.docker_image_openms
+    container params.docker_image_openms_processing
 
-    publishDir "${params.final_output_dir}/IDMapper",
+    publishDir "${params.final_output_dir}",
         mode: 'copy',
         enabled: params.merge_featureXML == false,
         pattern: "*.featureXML"
