@@ -22,6 +22,7 @@ class PeptideQuantCSVReheader:
     """Keep the OpenMS design and its assay-to-column mapping together."""
 
     def __init__(self, input_path: str, sample_name: str):
+        """Record the quantified input and its sample name."""
         self.input_path = input_path
         self.sample_name = sample_name
         self.consensus: ConsensusMap = None
@@ -57,7 +58,8 @@ class PeptideQuantCSVReheader:
                             if not header.metaValueExists('fraction_group')
                             or int(header.getMetaValue('fraction_group')) == assay[0]]
                 if not matching:
-                    raise ValueError(f'No consensusXML map matches assay {assay} and file {source!r}')
+                    raise ValueError(
+                        f'No consensusXML map matches assay {assay} and file {source!r}')
                 names = {text(header.getMetaValue('sample_name'))
                          if header.metaValueExists('sample_name') else text(entry.sample_name)
                          for header in matching}

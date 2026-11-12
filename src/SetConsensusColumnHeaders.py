@@ -6,6 +6,7 @@ from pyopenms import ConsensusMap, ConsensusXMLFile
 
 
 def main() -> None:
+    """Set sample names and fraction metadata on consensus map columns."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input-path", required=True)
     parser.add_argument("--output-path", required=True)

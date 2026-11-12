@@ -12,6 +12,7 @@ ABUNDANCE = re.compile(r"abundance\|[^|\t\r\n]+")
 
 
 def peptide_table(path: Path, expected_abundance_columns: int) -> None:
+    """Check assay headers and peptide rows in a published CSV."""
     with path.open(newline="") as handle:
         rows = csv.DictReader((line for line in handle if not line.startswith("#")), delimiter="\t")
         headers = rows.fieldnames or []
@@ -29,6 +30,7 @@ def peptide_table(path: Path, expected_abundance_columns: int) -> None:
 
 
 def main() -> None:
+    """Check the published outputs for the requested NFTest mode."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("output_root", type=Path)
     parser.add_argument("mode", choices=("fractionated-cohort", "unfractionated-samples"))
@@ -36,9 +38,11 @@ def main() -> None:
 
     tables = list(args.output_root.rglob("output/*_ProteinQuantifier_peptide.csv"))
     if args.mode == "fractionated-cohort":
-        assert len(tables) == 1 and tables[0].name == "ECOLI_LFQ_ProteinQuantifier_peptide.csv", tables
+        assert len(tables) == 1, tables
+        assert tables[0].name == "ECOLI_LFQ_ProteinQuantifier_peptide.csv", tables
         peptide_table(tables[0], len(SAMPLES))
-        final_maps = list(args.output_root.rglob("output/ECOLI_LFQ_IDConflictResolver.consensusXML"))
+        final_maps = list(args.output_root.rglob(
+            "output/ECOLI_LFQ_IDConflictResolver.consensusXML"))
         assert len(final_maps) == 1, final_maps
         maps = list(args.output_root.rglob("output/ECOLI_LFQ_FileMerger.consensusXML"))
         assert len(maps) == 1, maps

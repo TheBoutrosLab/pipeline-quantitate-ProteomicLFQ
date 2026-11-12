@@ -6,6 +6,7 @@ from pyopenms import FeatureMap, FeatureXMLFile
 
 
 def main() -> None:
+    """Set the spectra path used by the feature map."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input-path", required=True)
     parser.add_argument("--output-path", required=True)
