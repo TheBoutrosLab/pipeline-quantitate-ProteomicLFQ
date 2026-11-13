@@ -48,3 +48,23 @@ work_dir:
   mode: w
   required: false
   help: Optional Nextflow working directory.
+enable_mbr:
+  type: Bool
+  required: false
+  help: Enable QT match between runs in the FFId workflow.
+mbr_seed_detector:
+  type: String
+  required: false
+  help: Seed detector for FFId MBR; only multiplex is currently supported.
+ffmultiplex_intensity_threshold:
+  type: Number
+  required: false
+  help: Minimum MS1 peak intensity for untargeted seed detection.
+ffmultiplex_min_charge:
+  type: Integer
+  required: false
+  help: Minimum seed charge.
+ffmultiplex_max_charge:
+  type: Integer
+  required: false
+  help: Maximum seed charge.

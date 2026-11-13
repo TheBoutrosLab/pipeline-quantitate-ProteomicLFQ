@@ -2,12 +2,12 @@
 Config Params
 *************
 
-FeatureFinderIdentification (process: find_features_id)
+FeatureFinderIdentification (process: find_features_FFId)
 #######################################################
 
 See `here <https://openms.de/doxygen/release/3.6.0/html/TOPP_FeatureFinderIdentification.html>`_ for OpenMS's documentation of FeatureFinderIdentification.
 
-{% with data=data['find_features_id'] %}
+{% with data=data['find_features_FFId'] %}
 {% include "_table.rst" %}
 {% endwith %}
 
@@ -17,15 +17,6 @@ MapAlignerIdentification (process: align_featureXML_id)
 See `here <https://openms.de/doxygen/release/3.6.0/html/TOPP_MapAlignerIdentification.html>`_ for OpenMS's documentation of MapAlignerIdentification.
 
 {% with data=data['align_featureXML_id'] %}
-{% include "_table.rst" %}
-{% endwith %}
-
-MapAlignerIdentification (process: align_idXML)
-###############################################
-
-See `here <https://openms.de/doxygen/release/3.6.0/html/TOPP_MapAlignerIdentification.html>`_ for OpenMS's documentation of MapAlignerIdentification.
-
-{% with data=data['align_idXML'] %}
 {% include "_table.rst" %}
 {% endwith %}
 

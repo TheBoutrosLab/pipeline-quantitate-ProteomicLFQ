@@ -7,8 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added optional OpenMS 3.6 QT match between runs using untargeted
+  FeatureFinderMultiplex seeds and seeded FeatureFinderIdentification.
+
+### Changed
+
+- Regenerated the LFQ workflow diagram for the FFId, MBR, and de novo routes.
+- Retired merged and machine-learning FFId modes, external-ID/SVM options,
+  and OpenMS 3.5 processing; renamed the unseeded FFId process.
+
 ### Fixed
 
+- Corrected OpenMS 3.6 QT linker option names and bounded pyOpenMS threads to each task allocation.
 - Accepted text fraction IDs in linked LFQ cohorts by mapping labels to
   positive OpenMS fraction numbers in CSV order while retaining labels in
   filenames and `fraction_id` metadata.

@@ -10,17 +10,13 @@ from jinja2 import Environment, FileSystemLoader
 
 DOCKER_REPO = 'ghcr.io/theboutroslab/openms-thirdparty:3.6.0'
 MODULE_COMMANDS = {
-        'find_features_id': {
+        'find_features_FFId': {
             'command': 'FeatureFinderIdentification',
-            'path': 'modules/find_features_id.nf'
+            'path': 'modules/find_features_FFId.nf'
         },
         'align_featureXML_id': {
             'command': 'MapAlignerIdentification',
             'path': 'modules/align_featureXML_id.nf'
-        },
-        'align_idXML': {
-            'command': 'MapAlignerIdentification',
-            'path': 'modules/align_idXML.nf'
         },
         'transform_rt': {
             'command': 'MapRTTransformer',

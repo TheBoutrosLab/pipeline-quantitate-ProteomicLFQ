@@ -98,8 +98,3 @@ def findSingleFractionIdXML(sampleName, fractionId, sourceFile, prefix, idXMLs) 
     }
     return matches[0]
 }
-
-/** Exclude only the aligned idXML belonging to the current sample. */
-def externalAlignedIdXMLs(sampleName, alignedIdXMLs) {
-    return alignedIdXMLs.findAll { idXML -> idXML.baseName != "${sampleName}_aligned" }
-}

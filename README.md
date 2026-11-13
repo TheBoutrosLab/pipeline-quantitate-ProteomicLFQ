@@ -14,9 +14,15 @@
 
 This pipeline takes the mass spectrometry data from label free data dependent acquisition (DDA) proteomic studies, map them with the library search results, and quantitate peptide abundance. The mass spectrometry data must be in the mzML format, and can be converted from raw files using [ucla-cds/pipeline-convert-MSData](https://github.com/uclahs-cds/pipeline-convert-MSData). The library search result must be in idXML file, which can be generated using the [ucla-cds/pipeline-search-ProteomicMSMS](https://github.com/uclahs-cds/pipeline-search-ProteomicMSMS) and [ucla-cds/pipeline-validate-ProteomicPSM](https://github.com/uclahs-cds/pipeline-validate-ProteomicPSM). The outputted consensusXML can be used downstream for protein inference and quantitation.
 
-![workflow](img/flow-diagram.drawio.svg?raw=true)
+![workflow](img/flow-diagram.svg?raw=true)
 
-In this pipeline we implemented the targeted feature detection algorithm published by [Weisser et al in 2017](https://pubs.acs.org/doi/abs/10.1021/acs.jproteome.7b00248). For each mzML file, the features were first extracted using FFId (FeatureFinderIdentification) with the identification results. The features are then aligned across all samples at the study/cohort level. The retention times are then transformed, and then samples are merged to into consensus features. FFId provides three strategies, as internal-only, int/ext-merged, and machine-learning. For internal-only, only peptide identification results from the corresponding mzML is used. For int/ext-merged, all idXMLs from the same cohort/experiment are first aligned then merged and used to find features. The machine-learning strategy first align all idXMLs but treat internal and external identifications separately. Read the FFId paper for more detail.
+This pipeline uses FeatureFinderIdentification (FFId) to extract MS1 features from each
+run's own peptide identifications. When `enable_mbr = true`, a pyOpenMS
+FeatureFinderMultiplex step also detects unidentified MS1 seeds in each run.
+Seeded FFId re-extracts and quantifies those features; alignment and
+FeatureLinkerUnlabeledQT then link corresponding fractions across samples.
+QT-based match between runs does not estimate a transfer false-discovery rate.
+PIP-ECHO and Biosaur2/PASEF support are deferred.
 
 ---
 
@@ -50,7 +56,11 @@ In this pipeline we implemented the targeted feature detection algorithm publish
 | featureXML_entrypoint | bool | When true, `featureXML_csv` is required instead of `mzML.csv`. |
 | merge_featureXML | bool | When false, retention time won't be adjusted between samples and the PSM mapped featureXML will be used for peptide quantitation at the sample level. Applies to both FFId and de novo workflows. Defaults to true. |
 | filter_mapped_features | bool | When true, the features mapped to any PSM are removed and the result featureXML files are saved to final output. This can be useful for tiered custom database searching. |
-| fractionated | bool | Whether the samples have multiple fractions. When true, the input idXML will be split into individual fraction and then each featureXML file will be mapped to its corresponding idXML. |
+| fractionated | bool | Whether the samples have multiple fractions. When true, the input idXML is split and paired with each fraction's mzML. |
+| enable_mbr | bool | Enable QT-based match between runs in FFId. Requires at least two samples and `merge_featureXML = true`. Defaults to false. |
+| mbr_seed_detector | str | Seed detector for FFId MBR. Only `multiplex` is supported. |
+| ffmultiplex_intensity_threshold | number | Minimum MS1 peak intensity for seed detection; defaults to 10000. |
+| ffmultiplex_min_charge / ffmultiplex_max_charge | int | Seed charge range; defaults to 2–5. |
 
 In general, most parameters of each program used in the pipeline can be specified from the config files in the format of `<prefix>_<original_arg>`. For example, the value of `find_features_ident_extract_mz_window` is parsed to `FeatureFinderIdentification` as `-extract:mz_window`.
 
@@ -60,10 +70,17 @@ See [here](docs/params.rst) for the complete list of all supported config parame
 
 ## Quantification with OpenMS 3.6
 
-OpenMS and pyOpenMS default to version 3.6.0. The merged and machine-learning
-FFId strategies retain OpenMS and pyOpenMS 3.5.0 for processing before ProteinQuantifier;
-OpenMS 3.6 removed the external-ID and SVM options those strategies require.
-ProteinQuantifier runs with OpenMS 3.6.0 for every workflow.
+OpenMS and pyOpenMS default to version 3.6.0. The former `merged` and
+`machine_learning` FFId strategies and their OpenMS 3.5 processing have been
+retired. Set `enable_mbr = true` to include unidentified MS1 features in QT
+linking. The seed detector follows the OpenMS 3.6 LFQ settings for unlabeled
+FeatureFinderMultiplex. Its wrapper uses TOPP-style `-in`, `-out`, and
+`-algorithm:charge`; `-threshold_mower:threshold` controls the separate
+preprocessing step. Seeded FFId uses each run's own idXML. Its wrapper
+accepts the shared TOPP-style `-in`, `-id`, `-out`, and FFId options; `-seeds`
+is the required wrapper-specific input. Seed and
+quantified featureXML maps are published when `save_intermediate_files = true`.
+QT linking does not control false-transfer rate.
 
 For fractionated cohorts, the pipeline gives each consensusXML column a unique
 sample-and-fraction filename and annotates its sample name, fraction number,
@@ -89,9 +106,7 @@ ProteinQuantifier; calculate contrasts downstream if needed. See the
 
 OpenMS 3.6 also changed the automatic reference used by MapAlignerIdentification.
 This pipeline selects `consensus` by default to preserve its previous RT
-alignment behavior. The `align_featureXML_id_algorithm_auto_reference` and
-`align_idXML_algorithm_auto_reference` parameters can override that choice
-for 3.6 workflows.
+alignment behavior. The `align_featureXML_id_algorithm_auto_reference` parameter can override that choice.
 
 ## Outputs
 

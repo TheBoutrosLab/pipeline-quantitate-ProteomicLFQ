@@ -16,16 +16,16 @@ PARAMETER_MAPPER = [
     'link_features_algorithm_noID_penalty': '-algorithm:noID_penalty',
     'link_features_algorithm_noID_penalty': '-algorithm:noID_penalty',
     'link_features_algorithm_ignore_adduct': '-algorithm:ignore_adduct',
-    'link_features_distance_RT_max_difference': '-distance_RT:max_difference',
-    'link_features_distance_RT_exponent': '-distance_RT:exponent',
-    'link_features_distance_RT_weight': '-distance_RT:weight',
-    'link_features_distance_MZ_max_difference': '-distance_MZ:max_difference',
-    'link_features_distance_MZ_unit': '-distance_MZ:unit',
-    'link_features_distance_MZ_exponent': '-distance_MZ:exponent',
-    'link_features_distance_MZ_weight': '-distance_MZ:weight',
-    'link_features_distance_intensity_exponent': '-distance_intensity:exponent',
-    'link_features_distance_intensity_weight': '-distance_intensity:weight',
-    'link_features_distance_intensity_log_transform': '-distance_intensity:log_transform'
+    'link_features_distance_RT_max_difference': '-algorithm:distance_RT:max_difference',
+    'link_features_distance_RT_exponent': '-algorithm:distance_RT:exponent',
+    'link_features_distance_RT_weight': '-algorithm:distance_RT:weight',
+    'link_features_distance_MZ_max_difference': '-algorithm:distance_MZ:max_difference',
+    'link_features_distance_MZ_unit': '-algorithm:distance_MZ:unit',
+    'link_features_distance_MZ_exponent': '-algorithm:distance_MZ:exponent',
+    'link_features_distance_MZ_weight': '-algorithm:distance_MZ:weight',
+    'link_features_distance_intensity_exponent': '-algorithm:distance_intensity:exponent',
+    'link_features_distance_intensity_weight': '-algorithm:distance_intensity:weight',
+    'link_features_distance_intensity_log_transform': '-algorithm:distance_intensity:log_transform'
 ]
 
 FLAG_MAPPER = [:]
