@@ -1,9 +1,9 @@
-include { findSingleFractionIdXML; externalAlignedIdXMLs } from "${projectDir}/modules/common"
+include { findSingleFractionIdXML } from "${projectDir}/modules/common"
 include { split_idXML } from "${projectDir}/modules/split_idXML"
-include { find_features_id } from "${projectDir}/modules/find_features_id"
+include { find_features_FFId } from "${projectDir}/modules/find_features_FFId"
+include { seed_features_FFMultiplex } from "${projectDir}/modules/seed_features_FFMultiplex"
+include { find_features_FFIdSeeded } from "${projectDir}/modules/find_features_FFIdSeeded"
 include { align_featureXML_id } from "${projectDir}/modules/align_featureXML_id"
-include { align_idXML } from "${projectDir}/modules/align_idXML"
-include { merge_idXML } from "${projectDir}/modules/merge_idXML"
 include { transform_rt } from "${projectDir}/modules/transform_rt"
 include { link_features } from "${projectDir}/modules/link_features"
 include { merge_consensusXML } from "${projectDir}/modules/merge_consensusXML"
@@ -80,84 +80,25 @@ workflow ffid {
             .join(ich_idXML, by:0)
     }
 
-    if (params.ffid_strategy == 'merged') { // ffid internal & external id
-
-        ich_fraction_group_mzML_idXML = ich_fraction_mzML_idXML
-            .map { [it[1], it[0], it[2], it[3]] }
-            .groupTuple(by: 0) // [[fraction, [sample_1, sample_2], [1.mzML, 2.mzML], [1.idXML, 2.idXML]]]
-
-        ich_fraction_idXMLs = ich_fraction_group_mzML_idXML
-            .map { [it[0], it[1], it[3]] }
-        align_idXML(ich_fraction_idXMLs)
-
-        merge_idXML(align_idXML.out[0].map {[it[0], params.project_name, it[1]]})
-
-        ich_sample_fraction_mzML_idXML_external = ich_fraction_group_mzML_idXML
-            .map { [it[0], it[1], it[2]] }
-            .join(merge_idXML.out[0].map{[it[0], it[2]]}) // [[fraction, [sample_1,..], [mzML_1,..], idXML_1]]
-            .map { it ->
-                data = []
-                it[1].eachWithIndex { sample_name, i ->
-                    entry = [
-                        'sample_name': sample_name,
-                        'fraction': it[0],
-                        'mzML': it[2][i],
-                        'idXML': it[3]
-                    ]
-                    data.add(entry)
-                }
-                return data
+    if (params.enable_mbr) {
+        seed_features_FFMultiplex(ich_fraction_mzML_idXML.map { sample, fraction, mzML, idXML ->
+            [sample, fraction, mzML]
+        })
+        ich_seeded_input = ich_fraction_mzML_idXML
+            .join(seed_features_FFMultiplex.out[0], by: [0, 1], failOnMismatch: true)
+            .map { sample, fraction, mzML, idXML, seeds ->
+                [sample, fraction, mzML, idXML, seeds]
             }
-            .flatten()
-            .map { [it['sample_name'], it['fraction'], it['mzML'], it['idXML'], file("${projectDir}/input/NO_FILE")] }
-
-        // FeatureFinderdentification: merge internal and exteranl PSMs when building the SVM
-        // classifier
-        find_features_id(ich_sample_fraction_mzML_idXML_external)
-
-    } else if (params.ffid_strategy == 'machine_learning') { // ffid mechine learning
-        ich_fraction_group_mzML_idXML = ich_fraction_mzML_idXML
-            .map { [it[1], it[0], it[2], it[3]] }
-            .groupTuple(by: 0) // [[fraction, [sample_1, sample_2], [1.mzML, 2.mzML], [1.idXML, 2.idXML]]]
-
-        ich_fraction_idXMLs = ich_fraction_group_mzML_idXML
-            .map { [it[0], it[1], it[3]] }
-        align_idXML(ich_fraction_idXMLs)
-
-        ich_unique_samples = ich_idXML
-            .map { it[0] }
-            .unique()
-
-        ich_aligned_idXMLs = ich_unique_samples
-            .combine(align_idXML.out[0])
-            .map {
-                external_idXMLs = externalAlignedIdXMLs(it[0], it[2])
-                return [it[1], it[0], external_idXMLs]
-            }
-        merge_idXML(ich_aligned_idXMLs)
-
-        // replace intial idXML with aligned idXML, then use the merged idXML of other samples as
-        // external idXML
-        ich_sample_fraction_mzML_idXML_external = ich_fraction_mzML_idXML
-            .join(
-                merge_idXML.out[0].map({[it[1], it[0], it[2]]}) ,
-                by: [0,1]
-            )
-
-        // FeatureFinderdentification: separate internal and exteranl PSMs when building the SVM
-        // classifier
-        find_features_id(ich_sample_fraction_mzML_idXML_external)
-
-    } else { // ffid internal only
-        // // FeatureFinderIdentification: Find features using internal PSMs
-        ich_sample_fraction_mzML_idXML_external = ich_fraction_mzML_idXML
-            .map { [it[0], it[1], it[2], it[3], file("${projectDir}/input/NO_FILE")] }
-        find_features_id(ich_sample_fraction_mzML_idXML_external)
+        find_features_FFIdSeeded(ich_seeded_input)
+        ich_featureXML = find_features_FFIdSeeded.out[0]
+    } else {
+        find_features_FFId(ich_fraction_mzML_idXML)
+        ich_featureXML = find_features_FFId.out[0]
     }
 
     if (params.merge_featureXML) {
         if (params.number_of_samples > 1) {
-            ich_fraction_group_featureXML = find_features_id.out[0]
+            ich_fraction_group_featureXML = ich_featureXML
                 .map { [it[1], it[0], it[2]] }
                 .groupTuple(by:0)
 
@@ -205,7 +146,7 @@ workflow ffid {
             // FeatureLinkerUnlabeledQT: combine featureXMLs to consensusXML
             link_features(ich_fraction_transformed_featureXML)
             ch_fraction_consensusXML = link_features.out[0]
-                .join(ich_fraction_numbers, by: 0)
+                .join(ich_fraction_numbers, by: 0, failOnMismatch: true)
                 .map { fractionId, sampleNames, consensusXML, number ->
                     [fractionId, params.fractionated ? number : 0, sampleNames, consensusXML]
                 }
@@ -223,7 +164,7 @@ workflow ffid {
             }
         } else {
             if (params.fractionated) {
-                ich_sample_featureXMLs = find_features_id.out[0]
+                ich_sample_featureXMLs = ich_featureXML
                     .map { [it[0], it[2]] }
                     .groupTuple(by:0) // [sample_name, [f1.featureXML, f2.featureXML]]
                 merge_featureXML(ich_sample_featureXMLs)
@@ -236,7 +177,7 @@ workflow ffid {
                 set_consensusXMLColumnHeaders(ch_sample_consensusXML.map { [it[0], 0, it[1], it[2]] })
                 ich_sample_consensusXML = set_consensusXMLColumnHeaders.out[0]
             } else {
-                convert_featureXML2consensusXML(find_features_id.out[0].map { [it[0], it[2]] })
+                convert_featureXML2consensusXML(ich_featureXML.map { [it[0], it[2]] })
                 ch_sample_consensusXML = convert_featureXML2consensusXML.out[0]
                     .map { [it[0], it[0], it[1]] }
 
@@ -252,7 +193,7 @@ workflow ffid {
         reheader_PeptideQuantCSV(quantify_peptides.out[0])
     } else {
         // Merge fractions
-        ich_sample_featureXMLs = find_features_id.out[0]
+        ich_sample_featureXMLs = ich_featureXML
             .map { [it[0], it[2]] }
             .groupTuple(by:0)
         merge_featureXML(ich_sample_featureXMLs)

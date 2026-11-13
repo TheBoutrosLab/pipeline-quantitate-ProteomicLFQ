@@ -2,14 +2,10 @@
 Config Params
 *************
 
-FeatureFinderIdentification (process: find_features_id)
+FeatureFinderIdentification (process: find_features_FFId)
 #######################################################
 
 See `here <https://openms.de/doxygen/release/3.6.0/html/TOPP_FeatureFinderIdentification.html>`_ for OpenMS's documentation of FeatureFinderIdentification.
-
-The merged and machine-learning FFId strategies use OpenMS 3.5.0; their
-external-ID and SVM settings are unavailable to the OpenMS 3.6.0 internal-only
-strategy.
 
 
 +-----------------------------------------------+---------+----------------------------------------------+
@@ -43,43 +39,6 @@ strategy.
 ||                                              ||        || seconds if 1 or greater, else relative to   |
 ||                                              ||        || the RT span of the feature. (default: '0.0' |
 ||                                              ||        || min: '0.0')                                 |
-+-----------------------------------------------+---------+----------------------------------------------+
-|| find_features_ident_svm_samples                    || number || Number of observations to use for training  |
-|| (-svm:samples)                               ||        || ('0' for all) (default: '0' min: '0')       |
-||                                              ||        ||                                             |
-+-----------------------------------------------+---------+----------------------------------------------+
-|| find_features_ident_svm_no_selection               || bool   ||                   By default, roughly the   |
-|| (-svm:no_selection)                          ||        || same number of positive and negative        |
-||                                              ||        || observations, with the same intensity       |
-||                                              ||        || distribution, are selected for training.    |
-||                                              ||        || This aims to reduce biases, but also        |
-||                                              ||        || reduces the amount of training data. Set    |
-||                                              ||        || this flag to skip this procedure and        |
-||                                              ||        || consider all available observations         |
-||                                              ||        || (subject to 'svm:samples').                 |
-+-----------------------------------------------+---------+----------------------------------------------+
-|| find_features_ident_svm_xval_out                   || choice || Output file: SVM cross-validation           |
-|| (-svm:xval_out)                              ||        || (parameter optimization) results (valid     |
-||                                              ||        || formats: 'csv')                             |
-+-----------------------------------------------+---------+----------------------------------------------+
-|| find_features_ident_svm_kernel                     || choice || SVM kernel (default: 'RBF' valid: 'RBF',    |
-|| (-svm:kernel)                                ||        || 'linear')                                   |
-||                                              ||        ||                                             |
-+-----------------------------------------------+---------+----------------------------------------------+
-|| find_features_ident_svm_xval                       || number || Number of partitions for cross-validation   |
-|| (-svm:xval)                                  ||        || (parameter optimization) (default: '5' min: |
-||                                              ||        || '1')                                        |
-+-----------------------------------------------+---------+----------------------------------------------+
-|| find_features_ident_svm_log2_C                     || values || Values to try for the SVM parameter 'C'     |
-|| (-svm:log2_C)                                ||        || during parameter optimization. A value 'x'  |
-||                                              ||        || is used as 'C = 2^x'. (default: '[-5.0 -3.0 |
-||                                              ||        || -1.0 1.0 3.0 5.0 7.0 9.0 11.0 13.0 15.0]')  |
-+-----------------------------------------------+---------+----------------------------------------------+
-|| find_features_ident_svm_log2_gamma                 || values || Values to try for the SVM parameter 'gamma' |
-|| (-svm:log2_gamma)                            ||        || during parameter optimization (RBF kernel   |
-||                                              ||        || only). A value 'x' is used as 'gamma =      |
-||                                              ||        || 2^x'. (default: '[-15.0 -13.0 -11.0 -9.0    |
-||                                              ||        || -7.0 -5.0 -3.0 -1.0 1.0 3.0]')              |
 +-----------------------------------------------+---------+----------------------------------------------+
 || find_features_ident_model_type                     || choice || Type of elution model to fit to features    |
 || (-model:type)                                ||        || (default: 'symmetric' valid: 'symmetric',   |
@@ -125,42 +84,6 @@ See `here <https://openms.de/doxygen/release/3.6.0/html/TOPP_MapAlignerIdentific
 || (-algorithm:min_run_occur)                  ||        || if any) in which a peptide must occur to  |
 ||                                             ||        || be used for the alignment.                |
 +----------------------------------------------+---------+--------------------------------------------+
-
-
-
-MapAlignerIdentification (process: align_idXML)
-###############################################
-
-See `here <https://openms.de/doxygen/release/3.6.0/html/TOPP_MapAlignerIdentification.html>`_ for OpenMS's documentation of MapAlignerIdentification.
-
-
-+--------------------------------------+---------+-------------------------------------------------+
-| Parameter                            | Type    | Description                                     |
-+======================================+=========+=================================================+
-|| align_idXML_reference_file          || file   || File to use as reference (valid formats:       |
-|| (-reference:file)                   ||        || 'featureXML', 'consensusXML', 'idXML')         |
-||                                     ||        ||                                                |
-+--------------------------------------+---------+-------------------------------------------------+
-|| align_idXML_reference_index         || number || Use one of the input files as reference ('1'   |
-|| (-reference:index)                  ||        || for the first file, etc.).                     |
-||                                     ||        ||                                                |
-+--------------------------------------+---------+-------------------------------------------------+
-|| align_idXML_design                  || file   || Input file containing the experimental design  |
-|| (-design)                           ||        || (valid formats: 'tsv')                         |
-||                                     ||        ||                                                |
-+--------------------------------------+---------+-------------------------------------------------+
-|| align_idXML_algorithm_score_cutoff  || bool   ||                          If only IDs above a   |
-|| (-algorithm:score_cutoff)           ||        || score cutoff should be used. Used together     |
-||                                     ||        || with min_score.                                |
-+--------------------------------------+---------+-------------------------------------------------+
-|| align_idXML_algorithm_min_score     || value  || Minimum score for an ID to be considered.      |
-|| (-algorithm:min_score)              ||        || Applies to the last score calculated.          |
-||                                     ||        ||                                                |
-+--------------------------------------+---------+-------------------------------------------------+
-|| align_idXML_algorithm_min_run_occur || number || Minimum number of runs (incl. reference, if    |
-|| (-algorithm:min_run_occur)          ||        || any) in which a peptide must occur to be used  |
-||                                     ||        || for the alignment.                             |
-+--------------------------------------+---------+-------------------------------------------------+
 
 
 

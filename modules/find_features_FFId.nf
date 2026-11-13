@@ -17,23 +17,20 @@ PARAMETER_MAPPER = [
     'find_features_ident_detect_signal_to_noise': '-detect:signal_to_noise',
     'find_features_ident_detect_peak_width': '-detect:peak_width',
     'find_features_ident_detect_mapping_tolerance': '-detect:mapping_tolerance',
-    'find_features_ident_svm_samples': '-svm:samples',
-    'find_features_ident_svm_xval_out': '-svm:xval_out',
-    'find_features_ident_svm_kernel': '-svm:kernel',
-    'find_features_ident_svm_xval': '-svm:xval',
-    'find_features_ident_svm_log2_C': '-svm:log2_C',
-    'find_features_ident_svm_log2_gamma': '-svm:log2_gamma',
     'find_features_ident_model_type': '-model:type',
     'find_features_ident_EMGScoring_max_iteration': '-EMGScoring:max_iteration',
-    'find_features_ident_EMGScoring_init_mom': '-EMGScoring:init_mom'
+    'find_features_ident_EMGScoring_init_mom': '-EMGScoring:init_mom',
+    'find_features_ident_min_psm_cutoff': '-min_psm_cutoff',
+    'find_features_ident_add_mass_offset_peptides': '-add_mass_offset_peptides',
+    'find_features_ident_seed_apex_rt_tolerance': '-seed_apex_rt_tolerance',
+    'find_features_ident_extract_isotope_pmin': '-extract:isotope_pmin'
 ]
 
 FLAG_MAPPER = [
     'find_features_ident_quantify_decoys': '-quantify_decoys',
-    'find_features_ident_svm_no_selection': '-svm:no_selection'
 ]
 
-process find_features_id {
+process find_features_FFId {
     container params.docker_image_openms_processing
 
     publishDir "${params.intermediate_file_dir}/${task.process.replace(':','/')}",
@@ -64,8 +61,7 @@ process find_features_id {
             val(sample_name),
             val(fraction),
             file(mzML),
-            file(idXML),
-            file(external_idXML)
+            file(idXML)
         )
 
     output:
@@ -79,12 +75,10 @@ process find_features_id {
     script:
     featureXML = "${sample_name}_${fraction}_FeatureFinder.featureXML"
     extra_args = getOpenMSArgs(PARAMETERS, FLAGS, PARAMETER_MAPPER, FLAG_MAPPER)
-    id_ext_arg = external_idXML.name == 'NO_FILE' ? '' : "-id_ext ${external_idXML}"
     """
     FeatureFinderIdentification \\
         -in ${mzML} \\
         -id ${idXML} \\
-        ${id_ext_arg} \\
         -out ${featureXML} \\
         -threads ${task.cpus} \\
         ${extra_args}
