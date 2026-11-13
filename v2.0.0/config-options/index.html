@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Config Options - pipeline-quantitate-ProteomicLFQ</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Config Options";
+        var mkdocs_page_input_path = "config-options.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> pipeline-quantitate-ProteomicLFQ
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../overview/">Overview</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../how-to-run/">How To Run</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Config Options</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#global-params">Global Params</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../quantification-with-openms-36/">Quantification with OpenMS 3.6</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../outputs/">Outputs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../references/">References</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../license/">License</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">pipeline-quantitate-ProteomicLFQ</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Config Options</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/blob/v2.0.0/README.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2 id="config-options">Config Options</h2>
+<h3 id="global-params">Global Params</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">mzML_csv</td>
+<td style="text-align: left;">str</td>
+<td style="text-align: left;">Path to the mzML CSV File. Required when <code>featureXML_entrypoint</code> is false. See <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/blob/cb9ddaa530d6f76423ea6f72038c95bf060cc9d8/input/mzML.csv">this template</a>.</td>
+</tr>
+<tr>
+<td style="text-align: left;">featureXML_csv</td>
+<td style="text-align: left;">str</td>
+<td style="text-align: left;">Path to the featureXML CSV file. Required when <code>featureXML_entrypoint</code> is true. See <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/blob/cb9ddaa530d6f76423ea6f72038c95bf060cc9d8/input/featureXML.csv">this template</a> for example. Only used in the <em>de novo</em> workflow.</td>
+</tr>
+<tr>
+<td style="text-align: left;">idXML_csv</td>
+<td style="text-align: left;">str</td>
+<td style="text-align: left;">Path to the idXML CSV file. See <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/blob/cb9ddaa530d6f76423ea6f72038c95bf060cc9d8/input/idXML.csv">this template</a> for example. Note that the idXML files should one per sample for all fractions, not each fraction separated.</td>
+</tr>
+<tr>
+<td style="text-align: left;">output_dir</td>
+<td style="text-align: left;">str</td>
+<td style="text-align: left;">Path to the output directory</td>
+</tr>
+<tr>
+<td style="text-align: left;">project_name</td>
+<td style="text-align: left;">str</td>
+<td style="text-align: left;">Project name. Used as the prefix of the final output.</td>
+</tr>
+<tr>
+<td style="text-align: left;">save_intermediate_files</td>
+<td style="text-align: left;">bool</td>
+<td style="text-align: left;">When true, intermediate files will be saved.</td>
+</tr>
+<tr>
+<td style="text-align: left;">resource_allocation_profile_tag</td>
+<td style="text-align: left;">str</td>
+<td style="text-align: left;">Resource profile in <code>config/resources.json</code>. Defaults to <code>default</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;">base_resource_update</td>
+<td style="text-align: left;">map</td>
+<td style="text-align: left;">Optional per-process CPU and memory adjustments using the shared resource handler.</td>
+</tr>
+<tr>
+<td style="text-align: left;">ucla_cds</td>
+<td style="text-align: left;">bool</td>
+<td style="text-align: left;">When true, use the shared UCLA scratch work directory behavior. Resource allocation still uses <code>resources.json</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;">featureXML_entrypoint</td>
+<td style="text-align: left;">bool</td>
+<td style="text-align: left;">When true, <code>featureXML_csv</code> is required instead of <code>mzML.csv</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;">merge_featureXML</td>
+<td style="text-align: left;">bool</td>
+<td style="text-align: left;">When false, retention time won't be adjusted between samples and the PSM mapped featureXML will be used for peptide quantitation at the sample level. Applies to both FFId and de novo workflows. Defaults to true.</td>
+</tr>
+<tr>
+<td style="text-align: left;">filter_mapped_features</td>
+<td style="text-align: left;">bool</td>
+<td style="text-align: left;">When true, the features mapped to any PSM are removed and the result featureXML files are saved to final output. This can be useful for tiered custom database searching.</td>
+</tr>
+<tr>
+<td style="text-align: left;">fractionated</td>
+<td style="text-align: left;">bool</td>
+<td style="text-align: left;">Whether the samples have multiple fractions. When true, the input idXML is split and paired with each fraction's mzML.</td>
+</tr>
+<tr>
+<td style="text-align: left;">enable_mbr</td>
+<td style="text-align: left;">bool</td>
+<td style="text-align: left;">Enable QT-based match between runs in FFId. Requires at least two samples and <code>merge_featureXML = true</code>. Defaults to false.</td>
+</tr>
+<tr>
+<td style="text-align: left;">mbr_seed_detector</td>
+<td style="text-align: left;">str</td>
+<td style="text-align: left;">Seed detector for FFId MBR. Only <code>multiplex</code> is supported.</td>
+</tr>
+<tr>
+<td style="text-align: left;">ffmultiplex_intensity_threshold</td>
+<td style="text-align: left;">number</td>
+<td style="text-align: left;">Minimum MS1 peak intensity for seed detection; defaults to 10000.</td>
+</tr>
+<tr>
+<td style="text-align: left;">ffmultiplex_min_charge / ffmultiplex_max_charge</td>
+<td style="text-align: left;">int</td>
+<td style="text-align: left;">Seed charge range; defaults to 2–5.</td>
+</tr>
+</tbody>
+</table>
+<p>In general, most parameters of each program used in the pipeline can be specified from the config files in the format of <code>&lt;prefix&gt;_&lt;original_arg&gt;</code>. For example, the value of <code>find_features_ident_extract_mz_window</code> is parsed to <code>FeatureFinderIdentification</code> as <code>-extract:mz_window</code>.</p>
+<p>See <a href="../params.rst">here</a> for the complete list of all supported config parameters.</p>
+<hr />
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../how-to-run/" class="btn btn-neutral float-left" title="How To Run"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../quantification-with-openms-36/" class="btn btn-neutral float-right" title="Quantification with OpenMS 3.6">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/tree/v2.0.0" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../how-to-run/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../quantification-with-openms-36/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
