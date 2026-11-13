@@ -86,7 +86,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Overview</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/blob/c5b8bc631005b17bb1f6c0a2b355b646baa66678/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/blob/887089aeb45f2ca1908d789f48c3d2885c30402b/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -96,8 +96,14 @@
               
                 <h2 id="overview">Overview</h2>
 <p>This pipeline takes the mass spectrometry data from label free data dependent acquisition (DDA) proteomic studies, map them with the library search results, and quantitate peptide abundance. The mass spectrometry data must be in the mzML format, and can be converted from raw files using <a href="https://github.com/uclahs-cds/pipeline-convert-MSData">ucla-cds/pipeline-convert-MSData</a>. The library search result must be in idXML file, which can be generated using the <a href="https://github.com/uclahs-cds/pipeline-search-ProteomicMSMS">ucla-cds/pipeline-search-ProteomicMSMS</a> and <a href="https://github.com/uclahs-cds/pipeline-validate-ProteomicPSM">ucla-cds/pipeline-validate-ProteomicPSM</a>. The outputted consensusXML can be used downstream for protein inference and quantitation.</p>
-<p><img alt="workflow" src="../img/flow-diagram.drawio.svg?raw=true" /></p>
-<p>In this pipeline we implemented the targeted feature detection algorithm published by <a href="https://pubs.acs.org/doi/abs/10.1021/acs.jproteome.7b00248">Weisser et al in 2017</a>. For each mzML file, the features were first extracted using FFId (FeatureFinderIdentification) with the identification results. The features are then aligned across all samples at the study/cohort level. The retention times are then transformed, and then samples are merged to into consensus features. FFId provides three strategies, as internal-only, int/ext-merged, and machine-learning. For internal-only, only peptide identification results from the corresponding mzML is used. For int/ext-merged, all idXMLs from the same cohort/experiment are first aligned then merged and used to find features. The machine-learning strategy first align all idXMLs but treat internal and external identifications separately. Read the FFId paper for more detail.</p>
+<p><img alt="workflow" src="../img/flow-diagram.svg?raw=true" /></p>
+<p>This pipeline uses FeatureFinderIdentification (FFId) to extract MS1 features from each
+run's own peptide identifications. When <code>enable_mbr = true</code>, a pyOpenMS
+FeatureFinderMultiplex step also detects unidentified MS1 seeds in each run.
+Seeded FFId re-extracts and quantifies those features; alignment and
+FeatureLinkerUnlabeledQT then link corresponding fractions across samples.
+QT-based match between runs does not estimate a transfer false-discovery rate.
+PIP-ECHO and Biosaur2/PASEF support are deferred.</p>
 <hr />
               
             </div>

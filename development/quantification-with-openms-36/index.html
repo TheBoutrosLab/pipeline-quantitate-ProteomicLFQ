@@ -86,7 +86,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Quantification with OpenMS 3.6</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/blob/c5b8bc631005b17bb1f6c0a2b355b646baa66678/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/blob/887089aeb45f2ca1908d789f48c3d2885c30402b/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -95,10 +95,17 @@
             <div class="section" itemprop="articleBody">
               
                 <h2 id="quantification-with-openms-36">Quantification with OpenMS 3.6</h2>
-<p>OpenMS and pyOpenMS default to version 3.6.0. The merged and machine-learning
-FFId strategies retain OpenMS and pyOpenMS 3.5.0 for processing before ProteinQuantifier;
-OpenMS 3.6 removed the external-ID and SVM options those strategies require.
-ProteinQuantifier runs with OpenMS 3.6.0 for every workflow.</p>
+<p>OpenMS and pyOpenMS default to version 3.6.0. The former <code>merged</code> and
+<code>machine_learning</code> FFId strategies and their OpenMS 3.5 processing have been
+retired. Set <code>enable_mbr = true</code> to include unidentified MS1 features in QT
+linking. The seed detector follows the OpenMS 3.6 LFQ settings for unlabeled
+FeatureFinderMultiplex. Its wrapper uses TOPP-style <code>-in</code>, <code>-out</code>, and
+<code>-algorithm:charge</code>; <code>-threshold_mower:threshold</code> controls the separate
+preprocessing step. Seeded FFId uses each run's own idXML. Its wrapper
+accepts the shared TOPP-style <code>-in</code>, <code>-id</code>, <code>-out</code>, and FFId options; <code>-seeds</code>
+is the required wrapper-specific input. Seed and
+quantified featureXML maps are published when <code>save_intermediate_files = true</code>.
+QT linking does not control false-transfer rate.</p>
 <p>For fractionated cohorts, the pipeline gives each consensusXML column a unique
 sample-and-fraction filename and annotates its sample name, fraction number,
 original <code>fraction_id</code>, and fraction group before merging fractions. This lets OpenMS 3.6 recognize one
@@ -121,9 +128,7 @@ ProteinQuantifier; calculate contrasts downstream if needed. See the
 <a href="https://openms.de/doxygen/release/3.6.0/html/TOPP_ProteinQuantifier.html">OpenMS 3.6 ProteinQuantifier documentation</a>.</p>
 <p>OpenMS 3.6 also changed the automatic reference used by MapAlignerIdentification.
 This pipeline selects <code>consensus</code> by default to preserve its previous RT
-alignment behavior. The <code>align_featureXML_id_algorithm_auto_reference</code> and
-<code>align_idXML_algorithm_auto_reference</code> parameters can override that choice
-for 3.6 workflows.</p>
+alignment behavior. The <code>align_featureXML_id_algorithm_auto_reference</code> parameter can override that choice.</p>
               
             </div>
           </div><footer>

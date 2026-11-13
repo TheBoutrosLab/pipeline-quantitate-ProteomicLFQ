@@ -88,7 +88,7 @@
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
       <li class="breadcrumb-item active">Config Options</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/blob/c5b8bc631005b17bb1f6c0a2b355b646baa66678/README.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/blob/887089aeb45f2ca1908d789f48c3d2885c30402b/README.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -110,17 +110,17 @@
 <tr>
 <td style="text-align: left;">mzML_csv</td>
 <td style="text-align: left;">str</td>
-<td style="text-align: left;">Path to the mzML CSV File. Required when <code>featureXML_entrypoint</code> is false. See <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/blob/c5b8bc631005b17bb1f6c0a2b355b646baa66678/input/mzML.csv">this template</a>.</td>
+<td style="text-align: left;">Path to the mzML CSV File. Required when <code>featureXML_entrypoint</code> is false. See <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/blob/887089aeb45f2ca1908d789f48c3d2885c30402b/input/mzML.csv">this template</a>.</td>
 </tr>
 <tr>
 <td style="text-align: left;">featureXML_csv</td>
 <td style="text-align: left;">str</td>
-<td style="text-align: left;">Path to the featureXML CSV file. Required when <code>featureXML_entrypoint</code> is true. See <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/blob/c5b8bc631005b17bb1f6c0a2b355b646baa66678/input/featureXML.csv">this template</a> for example. Only used in the <em>de novo</em> workflow.</td>
+<td style="text-align: left;">Path to the featureXML CSV file. Required when <code>featureXML_entrypoint</code> is true. See <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/blob/887089aeb45f2ca1908d789f48c3d2885c30402b/input/featureXML.csv">this template</a> for example. Only used in the <em>de novo</em> workflow.</td>
 </tr>
 <tr>
 <td style="text-align: left;">idXML_csv</td>
 <td style="text-align: left;">str</td>
-<td style="text-align: left;">Path to the idXML CSV file. See <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/blob/c5b8bc631005b17bb1f6c0a2b355b646baa66678/input/idXML.csv">this template</a> for example. Note that the idXML files should one per sample for all fractions, not each fraction separated.</td>
+<td style="text-align: left;">Path to the idXML CSV file. See <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/blob/887089aeb45f2ca1908d789f48c3d2885c30402b/input/idXML.csv">this template</a> for example. Note that the idXML files should one per sample for all fractions, not each fraction separated.</td>
 </tr>
 <tr>
 <td style="text-align: left;">output_dir</td>
@@ -170,7 +170,27 @@
 <tr>
 <td style="text-align: left;">fractionated</td>
 <td style="text-align: left;">bool</td>
-<td style="text-align: left;">Whether the samples have multiple fractions. When true, the input idXML will be split into individual fraction and then each featureXML file will be mapped to its corresponding idXML.</td>
+<td style="text-align: left;">Whether the samples have multiple fractions. When true, the input idXML is split and paired with each fraction's mzML.</td>
+</tr>
+<tr>
+<td style="text-align: left;">enable_mbr</td>
+<td style="text-align: left;">bool</td>
+<td style="text-align: left;">Enable QT-based match between runs in FFId. Requires at least two samples and <code>merge_featureXML = true</code>. Defaults to false.</td>
+</tr>
+<tr>
+<td style="text-align: left;">mbr_seed_detector</td>
+<td style="text-align: left;">str</td>
+<td style="text-align: left;">Seed detector for FFId MBR. Only <code>multiplex</code> is supported.</td>
+</tr>
+<tr>
+<td style="text-align: left;">ffmultiplex_intensity_threshold</td>
+<td style="text-align: left;">number</td>
+<td style="text-align: left;">Minimum MS1 peak intensity for seed detection; defaults to 10000.</td>
+</tr>
+<tr>
+<td style="text-align: left;">ffmultiplex_min_charge / ffmultiplex_max_charge</td>
+<td style="text-align: left;">int</td>
+<td style="text-align: left;">Seed charge range; defaults to 2–5.</td>
 </tr>
 </tbody>
 </table>
