@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1810" viewBox="0 0 1500 1810" role="img" aria-labelledby="title description">
+<title id="title">Quantitate Proteomic LFQ workflow</title>
+<desc id="description">Three per-run feature routes feed either linked cohort quantification or independent sample quantification. Match between runs adds untargeted seeds before seeded FeatureFinderIdentification.</desc>
+<defs><style>
+.heading { font-family: Helvetica,Arial,sans-serif; font-size: 26px; font-weight: 700; fill: #173044; }
+.title { font-family: Helvetica,Arial,sans-serif; font-size: 23px; font-weight: 700; fill: #173044; }
+.body { font-family: Helvetica,Arial,sans-serif; font-size: 19px; fill: #173044; }
+.small { font-family: Helvetica,Arial,sans-serif; font-size: 17px; fill: #526879; }
+.edge { font-family: Helvetica,Arial,sans-serif; font-size: 16px; fill: #526879; }
+.center { text-anchor: middle; }
+.line { fill: none; stroke: #4b6172; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.dashed { stroke-dasharray: 8 6; }
+.arrowhead { fill: #4b6172; }
+.input { fill: #eff4f8; stroke: #9bb1c2; stroke-width: 2; }
+.process { fill: #fff; stroke: #7398c7; stroke-width: 2; }
+.mbr-process { fill: #fff; stroke: #70aa90; stroke-width: 2; }
+.link-process { fill: #fff; stroke: #7398c7; stroke-width: 2; }
+.independent-process { fill: #fff; stroke: #70aa90; stroke-width: 2; }
+.output { fill: #fff8e8; stroke: #d2a956; stroke-width: 2; }
+.note { fill: #f7f9fb; stroke: #d4dfe7; stroke-width: 1.5; }
+.section { fill: #f3f7fb; stroke: #cbdbe9; stroke-width: 1.5; }
+</style></defs>
+<rect width="1500" height="1810" fill="#fff"/>
+
+<g transform="translate(0 -80)">
+<rect class="input" x="100" y="108" width="1300" height="94" rx="14"/>
+<text class="title center" x="750" y="142">Inputs</text>
+<text class="body center" x="750" y="169">FFId: mzML.csv + idXML.csv    •    de novo: mzML.csv or featureXML.csv + idXML.csv</text>
+<text class="small center" x="750" y="188">Each row carries sample_name and fraction_id; fractions are paired across samples</text>
+<path class="line" d="M 750 202 V 228"/>
+<rect class="process" x="515" y="229" width="470" height="92" rx="14"/>
+<text class="title center" x="750.0" y="264">split_idXML</text>
+<text class="small center" x="750.0" y="290">IDRipper · fractionated inputs only</text>
+<text class="small center" x="750.0" y="311">idXML only; raw files remain available</text>
+<text class="title center" x="280" y="352">FFId · IDs only</text>
+<text class="small center" x="280" y="374">enable_mbr = false</text>
+<text class="title center" x="750" y="352">FFId · match between runs</text>
+<text class="small center" x="750" y="374">enable_mbr = true</text>
+<text class="title center" x="1220" y="352">de novo</text>
+<text class="small center" x="1220" y="374">mzML or featureXML entry point</text>
+<path class="line" d="M 750 321 V 333 H 515 V 390 H 1220 M 280 390 H 515 M 280 390 V 393 M 750 390 V 393 M 1220 390 V 393"/>
+<path class="arrowhead" d="M 280 404 l -6 -11 h 12 Z"/>
+<path class="arrowhead" d="M 750 404 l -6 -11 h 12 Z"/>
+<path class="arrowhead" d="M 1220 404 l -6 -11 h 12 Z"/>
+<rect class="process" x="65" y="404" width="430" height="92" rx="14"/>
+<text class="title center" x="280.0" y="439">find_features_FFId</text>
+<text class="small center" x="280.0" y="465">FeatureFinderIdentification · own idXML</text>
+<text class="small center" x="280.0" y="486">ID-driven featureXML</text>
+<rect class="mbr-process" x="535" y="404" width="430" height="92" rx="14"/>
+<text class="title center" x="750.0" y="439">seed_features_FFMultiplex</text>
+<text class="small center" x="750.0" y="465">FeatureFinderMultiplex.py</text>
+<text class="small center" x="750.0" y="486">untargeted MS1 seed featureXML</text>
+<rect class="process" x="1005" y="404" width="430" height="92" rx="14"/>
+<text class="title center" x="1220.0" y="439">find_features_centroided</text>
+<text class="small center" x="1220.0" y="465">FeatureFinderCentroided</text>
+<text class="small center" x="1220.0" y="486">skipped for featureXML.csv input</text>
+<path class="line" d="M 750 496 V 520"/>
+<path class="arrowhead" d="M 750 531 l -6 -11 h 12 Z"/>
+<text class="edge" x="762" y="517.5">seed featureXML</text>
+<rect class="mbr-process" x="535" y="531" width="430" height="92" rx="14"/>
+<text class="title center" x="750.0" y="566">find_features_FFIdSeeded</text>
+<text class="small center" x="750.0" y="592">FeatureFinderIdentification.py</text>
+<text class="small center" x="750.0" y="613">own idXML + seed featureXML</text>
+<path class="line" d="M 1220 496 V 520"/>
+<path class="arrowhead" d="M 1220 531 l -6 -11 h 12 Z"/>
+<text class="edge" x="1232" y="517.5">featureXML</text>
+<rect class="process" x="1005" y="531" width="430" height="92" rx="14"/>
+<text class="title center" x="1220.0" y="566">map_idXML</text>
+<text class="small center" x="1220.0" y="592">IDMapper · assign peptide IDs</text>
+<text class="small center" x="1220.0" y="613">optional: filter_FeatureXMLMapped</text>
+<path class="line" d="M 280 496 V 650 H 750 M 750 623 V 650 M 1220 623 V 650 H 750"/>
+<path class="arrowhead" d="M 750 676 l -6 -11 h 12 Z"/>
+<text class="edge" x="490" y="644">featureXML</text>
+<text class="edge" x="1000" y="644">annotated featureXML</text>
+<rect class="note" x="515" y="676" width="470" height="72" rx="14"/>
+<text class="title center" x="750" y="706">Per-run featureXML</text>
+<text class="small center" x="750" y="730">one file per sample and fraction</text>
+<path class="line" d="M 750 748 V 782 M 395 782 H 1105 M 395 782 V 806 M 1105 782 V 806"/>
+<path class="arrowhead" d="M 395 817 l -6 -11 h 12 Z"/>
+<path class="arrowhead" d="M 1105 817 l -6 -11 h 12 Z"/>
+<text class="small center" x="395" y="765">linked cohort · ≥2 samples · merge_featureXML = true</text>
+<text class="small center" x="1105" y="765">independent samples · single sample or merge_featureXML = false</text>
+<rect class="section" x="90" y="817" width="610" height="874" rx="18"/>
+<rect class="section" x="800" y="817" width="610" height="874" rx="18"/>
+<rect class="link-process" x="128" y="835" width="534" height="92" rx="14"/>
+<text class="title center" x="395.0" y="870">align_featureXML_id</text>
+<text class="small center" x="395.0" y="896">MapAlignerIdentification · within each fraction</text>
+<text class="small center" x="395.0" y="917">featureXML + trafoXML</text>
+<rect class="link-process" x="128" y="944" width="534" height="92" rx="14"/>
+<text class="title center" x="395.0" y="979">transform_rt</text>
+<text class="small center" x="395.0" y="1005">MapRTTransformer</text>
+<text class="small center" x="395.0" y="1026">aligned featureXML</text>
+<rect class="link-process" x="128" y="1053" width="534" height="92" rx="14"/>
+<text class="title center" x="395.0" y="1088">link_features</text>
+<text class="small center" x="395.0" y="1114">FeatureLinkerUnlabeledQT</text>
+<text class="small center" x="395.0" y="1135">fraction consensusXML</text>
+<rect class="link-process" x="128" y="1162" width="534" height="92" rx="14"/>
+<text class="title center" x="395.0" y="1197">set_consensusXMLColumnHeaders</text>
+<text class="small center" x="395.0" y="1223">SetConsensusColumnHeaders.py</text>
+<text class="small center" x="395.0" y="1244">sample and fraction metadata</text>
+<rect class="link-process" x="128" y="1271" width="534" height="92" rx="14"/>
+<text class="title center" x="395.0" y="1306">merge_consensusXML</text>
+<text class="small center" x="395.0" y="1332">FileMerger · fractions only</text>
+<text class="small center" x="395.0" y="1353">pre-conflict cohort consensusXML</text>
+<rect class="link-process" x="128" y="1380" width="534" height="92" rx="14"/>
+<text class="title center" x="395.0" y="1415">resolve_conflict</text>
+<text class="small center" x="395.0" y="1441">IDConflictResolver</text>
+<text class="small center" x="395.0" y="1462">resolved consensusXML</text>
+<rect class="link-process" x="128" y="1489" width="534" height="92" rx="14"/>
+<text class="title center" x="395.0" y="1524">quantify_peptides</text>
+<text class="small center" x="395.0" y="1550">ProteinQuantifier</text>
+<text class="small center" x="395.0" y="1571">peptide abundance CSV</text>
+<rect class="link-process" x="128" y="1598" width="534" height="92" rx="14"/>
+<text class="title center" x="395.0" y="1633">reheader_PeptideQuantCSV</text>
+<text class="small center" x="395.0" y="1659">ReheaderPeptideQuant.py</text>
+<text class="small center" x="395.0" y="1680">abundance|sample_name columns</text>
+<path class="line" d="M 395 927 V 933"/>
+<path class="arrowhead" d="M 395 944 l -6 -11 h 12 Z"/>
+<path class="line" d="M 395 1036 V 1042"/>
+<path class="arrowhead" d="M 395 1053 l -6 -11 h 12 Z"/>
+<path class="line" d="M 395 1145 V 1151"/>
+<path class="arrowhead" d="M 395 1162 l -6 -11 h 12 Z"/>
+<path class="line" d="M 395 1254 V 1260"/>
+<path class="arrowhead" d="M 395 1271 l -6 -11 h 12 Z"/>
+<path class="line" d="M 395 1363 V 1369"/>
+<path class="arrowhead" d="M 395 1380 l -6 -11 h 12 Z"/>
+<path class="line" d="M 395 1472 V 1478"/>
+<path class="arrowhead" d="M 395 1489 l -6 -11 h 12 Z"/>
+<path class="line" d="M 395 1581 V 1587"/>
+<path class="arrowhead" d="M 395 1598 l -6 -11 h 12 Z"/>
+<text class="edge" x="411" y="1039">featureXML</text>
+<text class="edge" x="411" y="1258">consensusXML</text>
+<rect class="independent-process" x="838" y="835" width="534" height="92" rx="14"/>
+<text class="title center" x="1105.0" y="870">merge_featureXML</text>
+<text class="small center" x="1105.0" y="896">FileMerger · combine fractions per sample</text>
+<text class="small center" x="1105.0" y="917">skipped where a direct featureXML suffices</text>
+<rect class="independent-process" x="838" y="962" width="534" height="92" rx="14"/>
+<text class="title center" x="1105.0" y="997">set_featureXMLSpectraPath</text>
+<text class="small center" x="1105.0" y="1023">SetFeatureXMLSpectraPath.py</text>
+<text class="small center" x="1105.0" y="1044">per-sample featureXML</text>
+<rect class="independent-process" x="838" y="1089" width="534" height="92" rx="14"/>
+<text class="title center" x="1105.0" y="1124">convert_featureXML2consensusXML</text>
+<text class="small center" x="1105.0" y="1150">FileConverter · if merge_featureXML = true</text>
+<text class="small center" x="1105.0" y="1171">per-sample consensusXML</text>
+<rect class="independent-process" x="838" y="1216" width="534" height="92" rx="14"/>
+<text class="title center" x="1105.0" y="1251">set_consensusXMLColumnHeaders</text>
+<text class="small center" x="1105.0" y="1277">SetConsensusColumnHeaders.py</text>
+<text class="small center" x="1105.0" y="1298">sample and fraction metadata</text>
+<rect class="independent-process" x="838" y="1343" width="534" height="92" rx="14"/>
+<text class="title center" x="1105.0" y="1378">resolve_conflict</text>
+<text class="small center" x="1105.0" y="1404">IDConflictResolver · if consensusXML</text>
+<text class="small center" x="1105.0" y="1425">resolved consensusXML</text>
+<rect class="independent-process" x="838" y="1470" width="534" height="92" rx="14"/>
+<text class="title center" x="1105.0" y="1505">quantify_peptides</text>
+<text class="small center" x="1105.0" y="1531">ProteinQuantifier</text>
+<text class="small center" x="1105.0" y="1552">peptide abundance CSV per sample</text>
+<rect class="independent-process" x="838" y="1597" width="534" height="92" rx="14"/>
+<text class="title center" x="1105.0" y="1632">reheader_PeptideQuantCSV</text>
+<text class="small center" x="1105.0" y="1658">ReheaderPeptideQuant.py</text>
+<text class="small center" x="1105.0" y="1679">abundance|sample_name columns</text>
+<path class="line" d="M 1105 927 V 951"/>
+<path class="arrowhead" d="M 1105 962 l -6 -11 h 12 Z"/>
+<path class="line" d="M 1105 1054 V 1078"/>
+<path class="arrowhead" d="M 1105 1089 l -6 -11 h 12 Z"/>
+<path class="line" d="M 1105 1181 V 1205"/>
+<path class="arrowhead" d="M 1105 1216 l -6 -11 h 12 Z"/>
+<path class="line" d="M 1105 1308 V 1332"/>
+<path class="arrowhead" d="M 1105 1343 l -6 -11 h 12 Z"/>
+<path class="line" d="M 1105 1435 V 1459"/>
+<path class="arrowhead" d="M 1105 1470 l -6 -11 h 12 Z"/>
+<path class="line" d="M 1105 1562 V 1586"/>
+<path class="arrowhead" d="M 1105 1597 l -6 -11 h 12 Z"/>
+<path class="line dashed" d="M 1372 1008 H 1401 V 1516 H 1372"/>
+<path class="arrowhead" d="M 1372 1516 l 11 -6 v 12 Z"/>
+<text class="edge" transform="translate(1423 1110) rotate(90)">merge_featureXML = false: featureXML directly to quantifier</text>
+<path class="line" d="M 395 1690 V 1700"/>
+<path class="arrowhead" d="M 395 1711 l -6 -11 h 12 Z"/>
+<rect class="output" x="128" y="1711" width="534" height="116" rx="14"/>
+<text class="title center" x="395" y="1746">Linked cohort output</text>
+<text class="small center" x="395" y="1775">pre-conflict + resolved consensusXML</text>
+<text class="small center" x="395" y="1800">one cohort peptide CSV</text>
+<path class="line" d="M 1105 1690 V 1700"/>
+<path class="arrowhead" d="M 1105 1711 l -6 -11 h 12 Z"/>
+<rect class="output" x="838" y="1711" width="534" height="116" rx="14"/>
+<text class="title center" x="1105" y="1746">Independent sample output</text>
+<text class="small center" x="1105" y="1775">consensusXML when linked within sample</text>
+<text class="small center" x="1105" y="1800">one peptide CSV per sample</text>
+<text class="small center" x="750" y="1860">Optional intermediates and process logs are controlled by pipeline configuration.</text>
+</g></svg>
