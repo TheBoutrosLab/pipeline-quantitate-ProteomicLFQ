@@ -18,24 +18,6 @@
                 }
             }
         },
-        "align_featureXML_pc": {
-            "cpus": {
-                "min": 1,
-                "fraction": 0.1,
-                "max": 4
-            },
-            "memory": {
-                "min": "4 GB",
-                "fraction": 0.25,
-                "max": "24 GB"
-            },
-            "retry_strategy": {
-                "memory": {
-                    "strategy": "exponential",
-                    "operand": 2
-                }
-            }
-        },
         "convert_featureXML2consensusXML": {
             "cpus": {
                 "min": 1,
@@ -145,24 +127,6 @@
             }
         },
         "merge_featureXML": {
-            "cpus": {
-                "min": 1,
-                "fraction": 0.1,
-                "max": 4
-            },
-            "memory": {
-                "min": "4 GB",
-                "fraction": 0.25,
-                "max": "24 GB"
-            },
-            "retry_strategy": {
-                "memory": {
-                    "strategy": "exponential",
-                    "operand": 2
-                }
-            }
-        },
-        "normalize_ConsensusXML": {
             "cpus": {
                 "min": 1,
                 "fraction": 0.1,

@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Use `TEST_DATA_DIR` for NFTest fixture paths across all LFQ cases.
+
+### Fixed
+
+- Use runtime-specific script mounts for Docker, Apptainer, and Singularity tasks.
+- Run NFTest through a Python launcher that selects Docker or Apptainer by environment.
+- Remove resource selectors for unused alignment and normalization processes.
+
 ## [2.0.0] - 2026-11-13
 
 ### Added
