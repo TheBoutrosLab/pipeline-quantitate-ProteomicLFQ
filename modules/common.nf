@@ -40,7 +40,8 @@ def print_prelogue(){
     def options = [:]
     exclude_args = [
         'input_csv', 'decoy_database', 'output_dir', 'openms_version', 'docker_image_openms',
-        'max_cpus', 'max_memory', 'intermediate_file_dir', 'process_log_dir', 'pipeline_log_dir'
+        'max_cpus', 'max_memory', 'intermediate_file_dir', 'process_log_dir', 'pipeline_log_dir',
+        'project_script_mount_options'
     ]
     params.each { key, val ->
         if (!(key in exclude_args)) {
