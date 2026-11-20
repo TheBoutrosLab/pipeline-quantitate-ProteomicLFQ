@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Quantification with OpenMS 3.6 - pipeline-quantitate-ProteomicLFQ</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Quantification with OpenMS 3.6";
+        var mkdocs_page_input_path = "quantification-with-openms-36.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> pipeline-quantitate-ProteomicLFQ
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../overview/">Overview</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../how-to-run/">How To Run</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../config-options/">Config Options</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Quantification with OpenMS 3.6</a>
+    <ul class="current">
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../outputs/">Outputs</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../references/">References</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../license/">License</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">pipeline-quantitate-ProteomicLFQ</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Quantification with OpenMS 3.6</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/blob/v2.0.2/README.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2 id="quantification-with-openms-36">Quantification with OpenMS 3.6</h2>
+<p>OpenMS and pyOpenMS default to version 3.6.0. The former <code>merged</code> and
+<code>machine_learning</code> FFId strategies and their OpenMS 3.5 processing have been
+retired. Set <code>enable_mbr = true</code> to include unidentified MS1 features in QT
+linking. The seed detector follows the OpenMS 3.6 LFQ settings for unlabeled
+FeatureFinderMultiplex. Its wrapper uses TOPP-style <code>-in</code>, <code>-out</code>, and
+<code>-algorithm:charge</code>; <code>-threshold_mower:threshold</code> controls the separate
+preprocessing step. Seeded FFId uses each run's own idXML. Its wrapper
+accepts the shared TOPP-style <code>-in</code>, <code>-id</code>, <code>-out</code>, and FFId options; <code>-seeds</code>
+is the required wrapper-specific input. Seed and
+quantified featureXML maps are published when <code>save_intermediate_files = true</code>.
+QT linking does not control false-transfer rate.</p>
+<p>For fractionated cohorts, the pipeline gives each consensusXML column a unique
+sample-and-fraction filename and annotates its sample name, fraction number,
+original <code>fraction_id</code>, and fraction group before merging fractions. This lets OpenMS 3.6 recognize one
+assay per sample across all fractions. Fraction IDs in the input CSV can be
+text labels; the original labels remain in output filenames while OpenMS
+receives a positive integer fraction number assigned by each distinct label’s
+first appearance in the input CSV. The top-level workflow attaches the number to each input file as it reads
+the CSV. The linked consensusXML receives the matching number by fraction
+label, regardless of channel arrival order.</p>
+<p><code>protein_quantifier_fractions_aggregate</code> defaults to <code>sum</code>: all fractions of a
+sample contribute to its assay abundance. Set it to <code>best</code> only when one
+fraction per peptide should represent the sample. The separate
+<code>protein_quantifier_best_charge</code> flag (default <code>false</code>) selects one charge per
+modified peptide for protein quantification and produces detailed peptide CSV
+rows for each observed fraction and charge. Without it, the peptide CSV has
+one row per peptide with <code>fraction</code> set to <code>all</code>. The published peptide CSV renames OpenMS assay columns to
+<code>abundance|&lt;sample_name&gt;</code>. The detailed output from <code>-best_charge</code> instead
+uses file and channel columns. Ratio columns are no longer produced by
+ProteinQuantifier; calculate contrasts downstream if needed. See the
+<a href="https://openms.de/doxygen/release/3.6.0/html/TOPP_ProteinQuantifier.html">OpenMS 3.6 ProteinQuantifier documentation</a>.</p>
+<p>OpenMS 3.6 also changed the automatic reference used by MapAlignerIdentification.
+This pipeline selects <code>consensus</code> by default to preserve its previous RT
+alignment behavior. The <code>align_featureXML_id_algorithm_auto_reference</code> parameter can override that choice.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../config-options/" class="btn btn-neutral float-left" title="Config Options"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../outputs/" class="btn btn-neutral float-right" title="Outputs">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/TheBoutrosLab/pipeline-quantitate-ProteomicLFQ/tree/v2.0.2" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="../config-options/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../outputs/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
